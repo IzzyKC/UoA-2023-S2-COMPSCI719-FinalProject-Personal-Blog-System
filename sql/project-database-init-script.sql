@@ -1,12 +1,10 @@
-DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS user_article;
 DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS user_theme;
 DROP TABLE IF EXISTS theme;
-DROP TABLE IF EXISTS user_blog;
-DROP TABLE IF EXISTS blog;
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE IF NOT EXISTS user(
@@ -17,21 +15,6 @@ CREATE TABLE IF NOT EXISTS user(
     authToken varchar(128),
 	video varchar(128),
 	PRIMARY KEY(id)
-);
-
-CREATE TABLE IF NOT EXISTS blog(
-	id INTEGER NOT NULL,
-	creator INTEGER NOT NULL,
-	PRIMARY KEY(id),
-	FOREIGN KEY(creator) REFERENCES user(id) on DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS user_blog(
-	userId INTEGER NOT NULL,
-	blogId INTEGER NOT NULL,
-	PRIMARY KEY(userId, blogId),
-	FOREIGN KEY(userId) REFERENCES user(id) on DELETE CASCADE,
-	FOREIGN KEY(blogId) REFERENCES blog(id) on DELETE CASCADE
 );
 
 --theme: code table
@@ -54,10 +37,8 @@ CREATE TABLE IF NOT EXISTS article(
 	title varchar(128) NOT NULL,
 	content TEXT  NOT NULL,
 	time timestamp NOT NULL,
-	blogId INTEGER NOT NULL,
 	themeId INTEGER NOT NULL,
 	PRIMARY KEY(id),
-	FOREIGN KEY(blogId) REFERENCES blog(id) on DELETE CASCADE,
 	FOREIGN KEY(themeId) REFERENCES theme(id) on DELETE CASCADE
 );
 
@@ -89,7 +70,7 @@ CREATE TABLE IF NOT EXISTS comment(
 	FOREIGN KEY(commentId) REFERENCES comment(id) on DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS message(
+CREATE TABLE IF NOT EXISTS notification(
 	id INTEGER NOT NULL,
 	senderId INTEGER NOT NULL,
 	receiverId INTEGER NOT NULL,
@@ -107,4 +88,5 @@ INSERT INTO theme (name) VALUES
 ('Dog'),
 ('Cat'),
 ('Fashion'),
-('Beauty');
+('Beauty'),
+('Other');
