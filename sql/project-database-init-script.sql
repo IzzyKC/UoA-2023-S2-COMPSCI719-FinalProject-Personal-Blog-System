@@ -102,10 +102,11 @@ CREATE TABLE IF NOT EXISTS notification(
 );
 
 INSERT INTO theme (name) VALUES
-('Music'),
-('Movie'),
-('Dog'),
-('Cat'),
-('Fashion'),
-('Beauty'),
-('Other');
+(0,'Default')
+(1,'Music'),
+(2,'Movie'),
+(3,'Dog'),
+(4,'Cat'),
+(5,'Fashion'),
+(6,'Beauty'),
+(7,'Other');
