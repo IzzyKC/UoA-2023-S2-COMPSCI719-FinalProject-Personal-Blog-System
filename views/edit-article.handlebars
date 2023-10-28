@@ -1,0 +1,67 @@
+<script src="./js/edit-article.js"></script>
+
+<div id="article-editor">
+    <!--
+    <span style="visibility: hidden" id="editarticleId">{{articleId}}</span>
+    -->
+    <fieldset id="article-fieldset">
+        <legend id="legend">
+            Article Editor[<span id="action">{{action}}</span>]
+        </legend>
+        <form id="save-article" action="/saveArticle" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="inpaction" value="{{action}}">
+            <input type="hidden" id="articleId" name="articleId" value="{{articleId}}">
+            <label for="title" class="editor-item">Title : </label>
+            <input type="text" id="title" name="title" required class="editor-item"><br>
+            <label for="theme" class="editor-item">Theme : </label>
+            <select name="theme" id="theme" class="editor-item"> 
+                <option value="0">--- Select an option ---</option>
+                {{#each themeOptions}}
+                <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select><br>
+            <label for="article" class="editor-item">Content : </label><br>
+            <input name="article" type="hidden">
+            <div id="quill-editor" class="editor-item" name="quill-editor"></div>
+            {{#if uploadedImages}}
+                <h4>Select uploaded images to remove from your post:</h4>
+            {{/if}}
+            <div id="uploaded-container">
+                {{#each uploadedImages}}
+                <div class="img-checkbox-container">
+                    <input type="checkbox" id="uploadimage" class="imgcheckbox" value="{{id}}"/>
+                    <label for="uploadimage">
+                        <img class="uploaded-img" src="{{path}}"/>
+                    </label>
+                </div>
+                {{/each}}
+                <input type="hidden" name="deleteImgs">
+            </div>
+            
+            <div class="upload-image">
+                <label for="inpFile">Upload your images here!</label>
+                <input id="inpFile" type="file" multiple name="imageFiles" accept=".png,.jpg,.jpeg,.bmp,.gif"><br>
+                <span class='hint'>Hint : You can upload mutiple images at onee. Supported image types: png,jpg,jpeg,bmp,gif</span>
+                <div class="preview-image"></div>
+                <h4>Selected images :</h4>
+                <div id="fileList"></div>
+            </div>
+
+            <button type="submit" id="publish">Publish</button>
+        </form>
+    </fieldset>
+
+    <form action="./backToYours" method="GET">
+        <button type="submit" id="back-to-yours">Back to Yours</button>
+    </form>
+
+   
+
+    <!--
+    <a href="#" id="publish">Publish</a>
+    <a href="./backToYours" id="back-to-yours">Back to Yours</a>
+    -->
+    
+</div>
+
+

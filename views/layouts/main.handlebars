@@ -8,9 +8,22 @@
     {{else}}
     <title>Default title.</title>
     {{/if}}
+    <link href="./css/article.css" rel="stylesheet" >
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet"> 
+    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+    
+    
 </head>
 
 <body>
+    <a href="./allArticles">All Articles</a>
+    <p></p>
+    <a href="./yourArticles">Your Articles</a>
+
+    {{#if toastMessage}}
+    <p>{{toastMessage}}</p>
+    {{/if}}
+
     {{{body}}}
 </body>
 

@@ -1,0 +1,47 @@
+
+<h1>{{owner}} articles:</h1>
+<div>
+    <a id="add-article" href="./addArticle" {{#if homePage}}style="visibility: hidden" {{/if}}>
+        What's in your mind?
+    </a>
+</div>
+
+<div class="articles-container">
+
+    <ul id="all-articles">
+        {{#each allArticles}}
+        <li class="article-item">
+            <div class="card-article">
+                <h1>Title : <span>{{title}}</span></h1>
+                <h2>Theme : <span>{{themeName}}</span></h2>
+                <h2>Time : <span>{{time}}</span></h2>
+                <div class="images-container">
+                    {{#each images}}
+                    <div class="images">
+                        <img class="article-img" src="{{this.path}}">
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="article-body">
+                    {{{content}}}
+                </div>
+            </div>
+            <div id="operation-article">
+                <form action="./editArticle" method="POST">
+                    <input id="articleInfo" name="articleInfo" type="hidden" value="{{this.id}}">
+                    <button id="edit-article">Edit</button>
+                </form>
+                <form action="./deleteArticle" method="POST">
+                    <input id="articleId" name="articleId" type="hidden" value="{{this.id}}">
+                    <button id="delete-article">Delete</button>
+                </form>
+            </div>
+
+            <div class="hr-container">
+                <hr class="article-hr">
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+
+</div>
