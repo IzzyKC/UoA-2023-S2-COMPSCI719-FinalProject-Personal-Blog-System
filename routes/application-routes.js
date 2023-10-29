@@ -11,7 +11,7 @@ router.get("/", async function(req, res) {
 
     const userDao= require("../modules/users-dao.js");
 const { retrieveAllUserData } = require("./practice dao");
-router. get ("/login", async function (req, res){
+router. get ("/", async function (req, res){
 
     const userId=req.body.userId;
     const userName=req.body.userName;
