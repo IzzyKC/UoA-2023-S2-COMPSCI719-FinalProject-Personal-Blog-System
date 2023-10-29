@@ -1,3 +1,22 @@
+/*
+ * Upon submission, this file should contain the SQL script to initialize your database.
+ * It should contain all DROP TABLE and CREATE TABLE statments, and any INSERT statements
+ * required.
+ */
+drop table if exists test;
+
+create table test (
+    id integer not null primary key,
+    stuff text  
+);
+
+insert into test (stuff) values
+    ('Things'),
+    ('More things');
+
+/*
+*philanthropic-polar-bears sql starts here
+*/
 DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS image;
@@ -83,10 +102,11 @@ CREATE TABLE IF NOT EXISTS notification(
 );
 
 INSERT INTO theme (name) VALUES
-('Music'),
-('Movie'),
-('Dog'),
-('Cat'),
-('Fashion'),
-('Beauty'),
-('Other');
+(0,'Default')
+(1,'Music'),
+(2,'Movie'),
+(3,'Dog'),
+(4,'Cat'),
+(5,'Fashion'),
+(6,'Beauty'),
+(7,'Other');

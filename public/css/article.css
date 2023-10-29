@@ -1,0 +1,129 @@
+#article-fieldset {
+    margin:10px
+}
+
+#article-editor{
+    margin: auto;
+    width: 800px;
+}
+.editor-item, #submit, #reset, .ql-toolbar{
+    margin: 10px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#quill-editor{
+    margin: 10px 10px;
+}
+
+
+#publish, #back-to-yours {
+    margin: 10px;
+    color: rgb(4, 44, 46);
+    font-weight: bolder;
+    font-size: 1em;
+    border: 2px solid rgb(122, 119, 119);
+    border-radius: 5px;
+    background-color: rgb(192, 228, 216);
+    text-decoration: none;
+}
+
+.ql-snow{
+    .ql-picker{
+        &.ql-size{
+            .ql-picker-label,
+            .ql-picker-item{
+                &::before{
+                    content: attr(data-value) !important;
+                }
+            }
+        }
+    }
+}
+
+#quill-editor{
+    width: 800px;
+    height: 300px;
+}
+
+.article-img{
+    width:100px;
+    height:100px;
+}
+
+.hint {
+    font-style: italic;
+    font-weight: lighter;
+    color: rgb(51, 50, 50);
+}
+
+.articles-container{
+    margin: auto;
+    width: 70%;
+    font-size: 1em;
+    font-weight: bolder;
+}
+
+.hr-container {
+    text-align: center;
+}
+
+.article-hr {
+    border: 1px dashed rgb(34, 17, 44);
+}
+
+#operation-article {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#operation-article button{
+    font-size: 16;
+    font-weight: bolder;
+    margin: auto 5px;
+    border: 2px solid darkgray;
+    border-radius: 5px;
+}
+
+#legend {
+    font-size: 1.5em;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+#add-article {
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    background-color: #5A827F;
+    padding: 5px 11px;
+    border-style: 2px solid;
+    border-radius: 10px;
+}
+
+#uploaded-container, .preview-image, .images-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.uploaded-img , .preview-image img{
+    width: 80px;
+    height: 80px;
+}
+
+/* Responsive design */
+/*****************************************************************/
+@media screen and (min-width: 960px) {
+    .container {
+        width: 960px;
+        margin: 10px auto;
+    }
+}
+/*****************************************************************/
+

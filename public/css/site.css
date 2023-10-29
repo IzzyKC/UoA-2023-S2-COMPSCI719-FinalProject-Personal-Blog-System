@@ -1,0 +1,47 @@
+/* feature one */
+
+* {
+    border: 1px black solid;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    background-color: #d9ead3;
+    box-shadow: 0px 3px 5px #706F6F;
+    justify-content: center;
+    align-items: baseline;
+    padding: 2px 10px;
+    grid-area:nav;
+}
+
+#menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    padding: 2px 10px;
+    grid-area: menu;
+}
+
+#article-display{
+    grid-area: article;
+}
+
+#icon {
+    width: 80px;
+    border-radius: 100%;
+    /* padding: 20px; */
+    grid-area: icon
+}
+
+#container-div {
+    display: grid;
+    grid-template-areas: 
+    'nav nav nav nav'
+    'menu menu menu icon'
+    'article article article video'
+    'your your your your'
+    'write write write other'
+    ;
+}
