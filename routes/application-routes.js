@@ -9,11 +9,14 @@ const articleDao = require("../modules/article-dao.js");
 const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 
-=======
-    res.locals.title = "My route title!";
-    res.locals.allTestData = await testDao.retrieveAllTestData();
-    res.render("home");
-});
+
+router.get("/", async function(req, res) {
+
+     res.locals.title = "My route title!";
+     res.locals.allTestData = await testDao.retrieveAllTestData();
+ 
+     res.render("home");
+ });
 
 router.get("/allArticles", async function(req, res) {
     res.locals.homePage = true;
@@ -171,6 +174,8 @@ async function getThemeOptions(){
     const options = await themeDao.retrieveAllThemeData();
     return options;
 }
+
+//router to test whether password function worked
 router.get("/password", async function(req, res) {
 
      res.render("password");
