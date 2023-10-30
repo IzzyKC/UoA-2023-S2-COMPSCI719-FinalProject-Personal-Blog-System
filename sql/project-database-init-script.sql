@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS user(
     password varchar(64) NOT NULL,
     name varchar(64),
     authToken varchar(128),
-	video varchar(128),
+	icon TEXT NOT NULL,
 	PRIMARY KEY(id)
 );
 
