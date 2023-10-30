@@ -4,7 +4,6 @@ window.addEventListener("load", function () {
     Size.whitelist = fontSizeArr;
     Quill.register(Size, true);
     var toolbarOptions = [
-        [{ 'font': [] }],
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         [{'size': fontSizeArr}],
