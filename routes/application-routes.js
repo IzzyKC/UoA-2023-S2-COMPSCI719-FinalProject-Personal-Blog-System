@@ -10,18 +10,18 @@ const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 
 
-    res.locals.title = "My route title!";
-    res.locals.allTestData = await testDao.retrieveAllTestData();
+res.locals.title = "My route title!";
+res.locals.allTestData = await testDao.retrieveAllTestData();
 
 
-    res.render("home");
+res.render("home");
 });
 
-router.get("/allArticles", async function(req, res) {
+router.get("/allArticles", async function (req, res) {
     res.locals.homePage = true;
     res.locals.owner = "All";
     const allArticles = await articleDao.retrieveAllArticles();
-    for(let article of allArticles){
+    for (let article of allArticles) {
         await retrieveArticleDetails(article);
     }
     //console.log(allArticles);
@@ -30,7 +30,7 @@ router.get("/allArticles", async function(req, res) {
 
 });
 
-router.get("/yourArticles", async function(req, res) {
+router.get("/yourArticles", async function (req, res) {
     user = {
         id: 2,
         username: "I am a test string"
@@ -38,7 +38,7 @@ router.get("/yourArticles", async function(req, res) {
     res.locals.owner = user.username;
     res.locals.homePage = false;
     const allArticles = await articleDao.retrieveAllArticlesByUserId(user.id);
-    for(let article of allArticles){
+    for (let article of allArticles) {
         await retrieveArticleDetails(article);
     }
     //console.log(allArticles);
@@ -48,24 +48,24 @@ router.get("/yourArticles", async function(req, res) {
 });
 
 
-router.get("/addArticle", async function(req, res) {
+router.get("/addArticle", async function (req, res) {
     res.locals.action = "ADD";
     res.locals.themeOptions = await getThemeOptions();
     res.render("edit-article");
 });
 
 
-router.post("/saveArticle", upload.array("imageFiles",15), async function(req, res) {
-    const pageAction =req.body.inpaction;
+router.post("/saveArticle", upload.array("imageFiles", 15), async function (req, res) {
+    const pageAction = req.body.inpaction;
     const article = {
         title: req.body.title,
         content: req.body.article,
         themeId: req.body.theme
     }
     const user = res.locals.user;//TO-DO merge log in function, get user data
-    try{
+    try {
         let articleId;
-        if(pageAction == "ADD"){
+        if (pageAction == "ADD") {
             //insert article data to db
             console.log("insert article");
             console.log(article);
@@ -74,11 +74,11 @@ router.post("/saveArticle", upload.array("imageFiles",15), async function(req, r
             //insert user_article relation to db
             const data = {
                 userId: 2,//TO-DO connect user data after log in func complete
-                articleId : articleId
+                articleId: articleId
             }
             console.log("insert user-article");
             await user_articleDao.userAddArticle(data);
-        }else if(pageAction == "EDIT"){
+        } else if (pageAction == "EDIT") {
             articleId = req.body.articleId;
             article.id = articleId;
             console.log(article);
@@ -90,7 +90,7 @@ router.post("/saveArticle", upload.array("imageFiles",15), async function(req, r
             deleteImages = deleteImages.slice(0, deleteImages.lastIndexOf(","));
             const deleteArray = deleteImages.split(",");
             console.log(deleteArray);
-            for(let id of deleteArray){
+            for (let id of deleteArray) {
                 await imageDao.deleteImageById(id);
             }
         }
@@ -98,7 +98,7 @@ router.post("/saveArticle", upload.array("imageFiles",15), async function(req, r
         //save imageFiles to server and insert image data to db
         console.log("insert new image");
         const fileInfoArray = req.files;
-        for(let fileInfo of fileInfoArray){
+        for (let fileInfo of fileInfoArray) {
             // Move the image into the images folder
             const oldFileName = fileInfo.path;
             const newFileName = `./public/images/${articleId}-${fileInfo.originalname}`;
@@ -106,7 +106,7 @@ router.post("/saveArticle", upload.array("imageFiles",15), async function(req, r
             //insert db
             const image = {
                 path: `./images/${articleId}-${fileInfo.originalname}`,
-                articleId : articleId
+                articleId: articleId
             }
             const addImageResult = await imageDao.addImage(image);
             console.log(addImageResult);
@@ -115,20 +115,20 @@ router.post("/saveArticle", upload.array("imageFiles",15), async function(req, r
         res.setToastMessage(`${pageAction} article successsfully!`)
         res.redirect("/yourArticles");
 
-    }catch(error){
+    } catch (error) {
         console.log(error);
         res.setToastMessage(`${pageAction} new article failed! [$error]`)
         res.render("edit-article");
     }
 });
 
-router.get("/backToYours", function(req, res) {
+router.get("/backToYours", function (req, res) {
     res.redirect("/yourArticles");
 });
 
-router.post("/editArticle", async function(req, res) {
+router.post("/editArticle", async function (req, res) {
     res.locals.action = "EDIT";
-    res.locals.edit =true;
+    res.locals.edit = true;
     const articleId = req.body.articleInfo;
     res.locals.articleId = articleId;
     res.locals.themeOptions = await getThemeOptions();
@@ -136,32 +136,32 @@ router.post("/editArticle", async function(req, res) {
     res.render("edit-article");
 });
 
-router.post("/deleteArticle", async function(req, res) {
+router.post("/deleteArticle", async function (req, res) {
     const articleId = req.body.articleId;
     console.log(articleId);
-    try{
+    try {
         await articleDao.deleteArticleByArticleId(articleId);
         res.setToastMessage(`delete article(id:${articleId}) successfully!`);
-    }catch(error) {
+    } catch (error) {
         res.setToastMessage(`delete article(id:${articleId}) failed! [$error]`);
     }
     res.redirect("/yourArticles");
 });
 
-router.get("/getArticleInfo/:articleId", async function(req, res){
+router.get("/getArticleInfo/:articleId", async function (req, res) {
     const articleId = req.params.articleId;
     let articleInfo = await articleDao.retrieveArticlebyArticleId(articleId);
     //console.log(articleInfo);
     //await retrieveArticleDetails(articleInfo);
-    if(articleInfo){
+    if (articleInfo) {
         res.status(200).json(articleInfo);
-    }else{
+    } else {
         //res.sendStatus(404);
-        res.status(404).send({result:`article (id:${articleId}) not Found!`});
+        res.status(404).send({ result: `article (id:${articleId}) not Found!` });
     }
 });
 
-async function retrieveArticleDetails(article){
+async function retrieveArticleDetails(article) {
     const themeName = await themeDao.retrieveNameById(article.themeId);
     article.themeName = themeName.name;
     const allImages = await imageDao.retrieveAllImagesByArticleId(article.id);
@@ -169,26 +169,26 @@ async function retrieveArticleDetails(article){
     console.log(article);
 }
 
-async function getThemeOptions(){
+async function getThemeOptions() {
     const options = await themeDao.retrieveAllThemeData();
     return options;
 }
-router.get("/password", async function(req, res) {
+router.get("/password", async function (req, res) {
 
-     res.render("password");
+    res.render("password");
 });
 
- const userDao= require("../modules/users-dao.js");
+const userDao = require("../modules/users-dao.js");
 const { retrieveAllUserData } = require("./practice dao");
-router. get ("/", async function (req, res){
+router.get("/", async function (req, res) {
 
-    const userId=req.body.userId;
-    const userName=req.body.userName;
-    const password=req.body.password;
-    const authToken=req.body.authToken;
+    const userId = req.body.userId;
+    const userName = req.body.userName;
+    const password = req.body.password;
+    const authToken = req.body.authToken;
 
-    const user= await userDao.retrieveAllUserData (userId, userName, password, authToken);
+    const user = await userDao.retrieveAllUserData(userId, userName, password, authToken);
 
     res.render("home");
 
-module.exports = router;
+    module.exports = router;})
