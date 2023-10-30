@@ -2,9 +2,6 @@
 
 <div class="container">
     <div id="article-editor">
-        <!--
-        <span style="visibility: hidden" id="editarticleId">{{articleId}}</span>
-        -->
         <fieldset id="article-fieldset">
             <legend id="legend">
                 Article Editor[<span id="action">{{action}}</span>]
@@ -21,7 +18,7 @@
                     <option value="{{this.id}}">{{this.name}}</option>
                     {{/each}}
                 </select><br>
-                <label for="article" class="editor-item">Content : </label><br>
+                <label class="editor-item">Content : </label><br>
                 <input name="article" type="hidden">
                 <div id="quill-editor" class="editor-item" name="quill-editor"></div>
                 {{#if uploadedImages}}
@@ -30,8 +27,8 @@
                 <div id="uploaded-container">
                     {{#each uploadedImages}}
                     <div class="img-checkbox-container">
-                        <input type="checkbox" id="uploadimage" class="imgcheckbox" value="{{id}}"/>
                         <label for="uploadimage">
+                            <input type="checkbox" id="uploadimage" class="imgcheckbox" value="{{id}}"/>
                             <img class="uploaded-img" src="{{path}}"/>
                         </label>
                     </div>
@@ -55,11 +52,6 @@
         <form action="./backToYours" method="GET">
             <button type="submit" id="back-to-yours">Back to Yours</button>
         </form>
-
-        <!--
-        <a href="#" id="publish">Publish</a>
-        <a href="./backToYours" id="back-to-yours">Back to Yours</a>
-        -->
         
     </div>
 </div>

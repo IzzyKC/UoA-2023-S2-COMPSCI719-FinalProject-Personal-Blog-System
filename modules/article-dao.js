@@ -11,14 +11,14 @@ async function addArticle(article) {
     const db = await dbPromise;
 
     const result = await db.run(SQL`
-        insert into article (title, content, time, themeId) 
-        values(${article.title}, ${article.content}, datetime('now'),${article.themeId})`);
+        insert into article (title, content, time, themeId, userId) 
+        values(${article.title}, ${article.content}, datetime('now'), ${article.themeId}, ${article.userId});`);
 
     // Get the auto-generated ID value, and return it back.
     return result.lastID;
 }
 
-async function retrieveAllArticles() {
+async function retrieveAllArticlesDesc() {
     const db = await dbPromise;
 
     const allArticles = await db.all(SQL`select * from article order by time desc`);
@@ -26,12 +26,28 @@ async function retrieveAllArticles() {
     return allArticles;
 }
 
-
-async function retrieveAllArticlesByUserId(userId) {
+async function retrieveAllArticlesAsc() {
     const db = await dbPromise;
 
-    const allArticles = await db.all(SQL`select a.* from article as a , user_article as ua 
-        where ua.userId =${userId} and a.id = ua.articleId order by a.time desc;`);
+    const allArticles = await db.all(SQL`select * from article order by time asc`);
+
+    return allArticles;
+}
+
+async function retrieveAllArticlesByUserIdDesc(userId) {
+    const db = await dbPromise;
+
+    const allArticles = await db.all(SQL`select * from article 
+        where userId =${userId} order by time desc;`);
+
+    return allArticles;
+}
+
+async function retrieveAllArticlesByUserIdAsc(userId) {
+    const db = await dbPromise;
+
+    const allArticles = await db.all(SQL`select * from article 
+        where userId =${userId} order by time asc;`);
 
     return allArticles;
 }
@@ -67,8 +83,10 @@ async function updateArticleByArticleId(article) {
 // Export functions.
 module.exports = {
     addArticle,
-    retrieveAllArticles,
-    retrieveAllArticlesByUserId,
+    retrieveAllArticlesDesc,
+    retrieveAllArticlesAsc,
+    retrieveAllArticlesByUserIdDesc,
+    retrieveAllArticlesByUserIdAsc,
     deleteArticleByArticleId,
     retrieveArticlebyArticleId,
     updateArticleByArticleId
