@@ -1,3 +1,6 @@
+.container {
+    margin: 10px;
+}
 #article-fieldset {
     margin:10px
 }
@@ -42,7 +45,7 @@
 }
 
 #quill-editor{
-    width: 800px;
+    width: 750px;
     height: 300px;
 }
 
@@ -59,9 +62,9 @@
 
 .articles-container{
     margin: auto;
-    width: 70%;
+    width: 65%;
     font-size: 1em;
-    font-weight: bolder;
+    font-weight: bold;
 }
 
 .hr-container {
@@ -70,21 +73,6 @@
 
 .article-hr {
     border: 1px dashed rgb(34, 17, 44);
-}
-
-#operation-article {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-#operation-article button{
-    font-size: 16;
-    font-weight: bolder;
-    margin: auto 5px;
-    border: 2px solid darkgray;
-    border-radius: 5px;
 }
 
 #legend {
@@ -97,10 +85,11 @@
     text-decoration: none;
     text-align: center;
     color: white;
-    background-color: #5A827F;
+    background-color: #84a19f;
     padding: 5px 11px;
     border-style: 2px solid;
     border-radius: 10px;
+    margin: 10px auto;
 }
 
 #uploaded-container, .preview-image, .images-container {
@@ -116,6 +105,93 @@
     width: 80px;
     height: 80px;
 }
+
+#home-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#home-nav a{
+    text-decoration: none;
+    margin: 20px;
+    border: 2px solid;
+    border-style: 2px solid;
+    border-radius: 5px;
+    background-color: rgb(227, 226, 228);
+}
+
+#grid-article {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "body body"
+    "comment operation";
+}
+
+#article-body{
+    grid-area: body;
+}
+
+#article-comment {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    grid-area: comment;
+}
+
+#article-operation {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    grid-area: operation;
+}
+
+#article-comment button {
+    margin:5px;
+}
+
+#article-operation button, #addComment{
+    font-size: 16;
+    font-weight: bolder;
+    margin: auto 5px;
+    border: 2px solid darkgray;
+    border-radius: 5px;
+}
+
+.like-button {
+    display: inline-block;
+    position: relative;
+    font-size: 18px;
+    cursor: pointer;
+    &::before {
+      font-size: 3em;
+      color: #635f6b;
+      content: '♥';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &::after {
+      font-size: 3em;
+      color: red;
+      content: '♥';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.2s;
+    }
+    &.liked::after {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+  }
 
 /* Responsive design */
 /*****************************************************************/

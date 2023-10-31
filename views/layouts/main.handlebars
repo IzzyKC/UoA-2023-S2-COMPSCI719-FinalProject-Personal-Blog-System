@@ -16,15 +16,17 @@
 </head>
 
 <body>
-    <a href="./allArticles">All Articles</a>
-    <p></p>
-    <a href="./yourArticles">Your Articles</a>
-
-    {{#if toastMessage}}
-    <p>{{toastMessage}}</p>
-    {{/if}}
-
-    {{{body}}}
+    <div class="container">
+        <nav id="home-nav">
+            <a href="./allArticles?sortby=desc">Home</a>
+            <a href="#">For You</a>
+            <a href="./yourArticles?sortby=desc">Yours</a> 
+        </nav>
+        {{#if toastMessage}}
+        <p>{{toastMessage}}</p>
+        {{/if}}
+        {{{body}}}
+    </div>
 </body>
 
 </html>

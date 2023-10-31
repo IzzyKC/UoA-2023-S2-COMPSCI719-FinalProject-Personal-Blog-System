@@ -4,7 +4,7 @@ const dbPromise = require("./database.js");
 async function retrieveAllThemeData() {
     const db = await dbPromise;
 
-    const allThemeData = await db.all(SQL`select * from theme`);
+    const allThemeData = await db.all(SQL`select * from theme where id <> 0;`);
 
     return allThemeData;
 }
