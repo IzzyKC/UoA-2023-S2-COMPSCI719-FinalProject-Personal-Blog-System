@@ -5,40 +5,49 @@ const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 const upload = require("../middleware/multer-uploader.js");
 const fs = require("fs");
 
-const themeDao = require("../modules/theme-dao.js");
 const articleDao = require("../modules/article-dao.js");
 const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
+const commentDao = require("../modules/comment-dao.js");
 
-router.get("/allArticles", async function (req, res) {
-    res.locals.homePage = true;
-    res.locals.owner = "All";
+//TODO add verifyAuthenticated
+router.get("/yourFavorites", async function (req, res) {
+    res.locals.favoritePage = true;
+    const user = {
+        id: 3,
+        username: "I am a test string"
+    };
     const sortby = req.query.sortby;
+    const params = {
+        sortby : sortby,
+        userid: user.id
+    };
     let allArticles = [];
     if (sortby == "asc") {
         res.locals.asc = true;
-        allArticles = await articleDao.retrieveAllArticlesAsc();
+        allArticles = await articleDao.retrieveUserFavoritesAsc(user.id);
     } else {
         res.locals.desc = true;
-        allArticles = await articleDao.retrieveAllArticlesDesc();
+        allArticles = await articleDao.retrieveUserFavoritesDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles);
+    await article.fetchAllArticleDetails(allArticles, user.id);
+    
+    //const allArticles = await article.fetchYourArticles(params);
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
-    res.render("all-articles");
+    res.render("home");
 
 });
 
 //TO-DO add verifyAuthenticated
 router.get("/yourArticles", async function (req, res) {
-    user = {
+    res.locals.postPage = true;
+    const user = {
         id: 3,
         username: "I am a test string"
     };
     const sortby = req.query.sortby;
-    res.locals.owner = user.username;
-    res.locals.homePage = false;
     let allArticles = [];
     if (sortby == "asc") {
         res.locals.asc = true;
@@ -47,10 +56,11 @@ router.get("/yourArticles", async function (req, res) {
         res.locals.desc = true;
         allArticles = await articleDao.retrieveAllArticlesByUserIdDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles);
+    await article.fetchAllArticleDetails(allArticles, user.id);
+   
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
-    res.render("all-articles");
+    res.render("home");
 
 });
 
@@ -144,9 +154,9 @@ router.post("/deleteArticle", async function (req, res) {
     console.log(articleId);
     try {
         await articleDao.deleteArticleByArticleId(articleId);
-        res.setToastMessage(`delete article(id:${articleId}) successfully!`);
+        res.setToastMessage(`DELETE article(id:${articleId}) successfully!`);
     } catch (error) {
-        res.setToastMessage(`delete article(id:${articleId}) failed! ${error}`);
+        res.setToastMessage(`DELETE article(id:${articleId}) failed! ${error}`);
     }
     res.redirect("/yourArticles");
 });
@@ -158,30 +168,68 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
     //console.log(articleInfo);
     //await retrieveArticleDetails(articleInfo);
     if (articleInfo) {
-        res.status(200).json(articleInfo);
+        return res.status(200).json(articleInfo);
     } else {
         //res.sendStatus(404);
-        res.status(404).send({ result: `article (id:${articleId}) not Found!` });
+        return res.status(404).send({ result: `article (id:${articleId}) not Found!` });
     }
 });
 
-/*
-async function fetchAllArticleDetails(allArticles){
-    for(let article of allArticles){
-        //await retrieveArticleDetails(article);
-        const themeName = await themeDao.retrieveNameById(article.themeId);
-        article.themeName = themeName.name;
-        const allImages = await imageDao.retrieveAllImagesByArticleId(article.id);
-        article.images = allImages;
-        console.log(article);
+router.get("/addUserLike/:articleId", async function(req, res) {
+    try {
+        
+        const userId = 3;//TO DO res.locals.user.id;
+        const articleId = req.params.articleId;
+        
+        await user_articleDao.userAddLike(userId, articleId);
+        return res.status(200).send({result:"user add favorite successfully!"});
+    } catch (error) {
+        console.log(error);
+        return res.status(404).send({result:`${error}`});
     }
-}
 
+});
 
-async function getThemeOptions(){
-    const options = await themeDao.retrieveAllThemeData();
-    return options;
-}
-*/
+router.get("/deleteUserLike/:articleId", async function(req, res) {
+    try {
+        const userId = 3;//TO DO res.locals.user.id;
+        const articleId = req.params.articleId;
+        await user_articleDao.userDeleteLike(userId, articleId);
+        return res.status(200).send({result:"user delete favorite successfully!"});
+    } catch (error) {
+        console.log(error);
+        return res.status(404).send({result:`${error}`});
+    }
+
+});
+
+router.get("/addComment", async function(req, res) {
+    const pageIndex = req.query.InpPageIndex;
+    try {
+        const userId = 1;//TO DO res.locals.user.id;
+        const articleId = req.query.inpArticleId;
+        const content = req.query.inpComment;
+        
+        console.log(pageIndex);
+        const comment = {
+            content : content,
+            articleId: articleId,
+            userId: userId
+        };
+        console.log(comment);
+        await commentDao.addNewComment(comment);
+    } catch (error) {
+        console.log(error);
+        res.setToastMessage(`Leave a comment failed : ${error}`);
+    }
+    if(pageIndex == "H"){
+        res.redirect("/");
+    }else if(pageIndex == "P"){
+        res.redirect("/yourArticles")
+    }else{
+        res.redirect("/yourFavorites")
+    }
+    
+});
 
 module.exports = router;

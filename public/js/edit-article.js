@@ -74,9 +74,9 @@ window.addEventListener("load", function () {
         
         console.log("Submitted", $(form).serialize(), $(form).serializeArray());
 
-        // No back end to actually submit to!
-        alert('Open the console to see the submit data!')
-        return false;
+        //debug :check submit quilljs data
+        //alert('Open the console to see the submit data!')
+        //return false;
 
     });
 
