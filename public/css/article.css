@@ -1,5 +1,6 @@
 .container {
     margin: 10px;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url('../images/background.jpg');
 }
 #article-fieldset {
     margin:10px
@@ -132,9 +133,10 @@
     grid-template-rows: auto;
     grid-template-areas: 
     "body body"
+    "list list"
     "comment operation"
-    "form form"
-    "list list";
+    "form form";
+    
 }
 
 #article-body{
@@ -168,7 +170,7 @@
     font-weight: bolder;
     margin: auto 5px;
     border: 2px solid darkgray;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .like-button {
@@ -247,6 +249,13 @@
 
 #comment-container{
     grid-area: list;
+}
+
+#login-button {
+    width: 40px;
+    height: 40px;
+    float: right;
+    margin: 5px;
 }
 
 /* Responsive design */
