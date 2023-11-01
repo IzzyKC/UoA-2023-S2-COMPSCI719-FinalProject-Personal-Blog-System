@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS user(
 	id INTEGER NOT NULL,
     username varchar(64) UNIQUE NOT NULL,
     password varchar(64) NOT NULL,
-    name varchar(64),
+    realName varchar(64),
+	dateOfBirth varchar(8),
+	description text,
     authToken varchar(128),
 	icon TEXT NOT NULL,
 	PRIMARY KEY(id)
