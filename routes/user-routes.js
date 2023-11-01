@@ -42,5 +42,41 @@ router.post("/login", async function (req, res) {
     }
 });
 
+router.get("/newAccount", function(req, res) {
+    res.render("./new-account");
+
+});
+
+router.post("/newAccount", function(req, res) {
+    const user = {
+        username: req.body.username,
+        password: req.body.password,
+        name: req.body.name
+    };
+    try{
+        userDao.createUser(user);
+        res.setToastMessage("Account created successfully!");
+        res.redirect("./login");
+    }catch(error){
+        res.setToastMessage("create new account fails: Username has benn taken!")
+        res.redirect("./newAccount");
+    }
+    
+});
+
+router.get("/updateAccount", function(req, res) {
+
+});
+
+router.post("/saveUpdate", function(req, res) {
+    
+});
+
+router.post("/deleteAccount", function(req, res) {
+
+});
+
+
+
 
 module.exports = router

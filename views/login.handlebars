@@ -1,4 +1,3 @@
-<div class="container">
 
     {{! Display a toast message if one was provided. }}
     {{#if toastMessage}}
@@ -22,7 +21,8 @@
             <button type="submit">Log in</button>
         </div>
     </form>
-    
-    <a href="./newAccount">create new account</a> 
 
-</div>
+     <form action="/newAccount">
+            <input id="add-account-button" type="image" src="./images/add-account.png" alt="Submit"/>
+    </form>
+
