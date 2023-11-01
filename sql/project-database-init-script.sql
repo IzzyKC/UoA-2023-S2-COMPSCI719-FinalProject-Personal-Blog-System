@@ -30,9 +30,11 @@ CREATE TABLE IF NOT EXISTS user(
 	id INTEGER NOT NULL,
     username varchar(64) UNIQUE NOT NULL,
     password varchar(64) NOT NULL,
-    name varchar(64),
+    realName varchar(64),
+	dateOfBirth varchar(8),
+	description text,
     authToken varchar(128),
-	video varchar(128),
+	icon TEXT NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -57,8 +59,10 @@ CREATE TABLE IF NOT EXISTS article(
 	content TEXT  NOT NULL,
 	time timestamp NOT NULL,
 	themeId INTEGER NOT NULL,
+	userId INTEGER NOT NULL,
 	PRIMARY KEY(id),
-	FOREIGN KEY(themeId) REFERENCES theme(id) on DELETE CASCADE
+	FOREIGN KEY(themeId) REFERENCES theme(id) on DELETE CASCADE,
+	FOREIGN KEY(userId) REFERENCES user(id) on DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS user_article(
@@ -82,11 +86,10 @@ CREATE TABLE IF NOT EXISTS comment(
 	content TEXT NOT NULL,
 	time timestamp NOT NULL,
 	articleId INTEGER NOT NULL,
-	commentId INTEGER ,
-	like INTEGER DEFAULT 0 NOT NULL,
+	userId INTEGER NOT NULL,
 	PRIMARY KEY(id),
 	FOREIGN KEY(articleId) REFERENCES article(id) on DELETE CASCADE,
-	FOREIGN KEY(commentId) REFERENCES comment(id) on DELETE CASCADE
+	FOREIGN KEY(userId) REFERENCES user(id) on DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS notification(
@@ -101,12 +104,12 @@ CREATE TABLE IF NOT EXISTS notification(
 	
 );
 
-INSERT INTO theme (name) VALUES
-(0,'Default')
+INSERT INTO theme (id, name) VALUES
+(0,'Default'),
 (1,'Music'),
 (2,'Movie'),
 (3,'Dog'),
 (4,'Cat'),
 (5,'Fashion'),
 (6,'Beauty'),
-(7,'Other');
+(999,'Other');

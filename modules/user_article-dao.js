@@ -6,15 +6,32 @@ const dbPromise = require("./database.js");
  * 
  * @param article the article to insert
  */
-async function userAddArticle(data) {
+async function userAddLike(userId, articleId) {
     const db = await dbPromise;
 
     const result = await db.run(SQL`
-        insert into user_article (userId, articleId) values(${data.userId}, ${data.articleId});`);
+        insert into user_article (userId, articleId) values(${userId}, ${articleId});`);
     return result;
+}
+
+async function userDeleteLike(userId, articleId) {
+    const db = await dbPromise;
+
+    const result = await db.run(SQL`
+        delete from user_article where userId = ${userId} and articleId = ${articleId};`);
+    return result;
+}
+
+async function retrieveUserLike(userId, articleId) {
+    const db = await dbPromise;
+    const userLike = await db.get(SQL`select * from user_article where userId = ${userId} and articleId = ${articleId};`);
+    return userLike;
+
 }
 
 // Export functions.
 module.exports = {
-    userAddArticle
+    userAddLike,
+    userDeleteLike,
+    retrieveUserLike
 };
