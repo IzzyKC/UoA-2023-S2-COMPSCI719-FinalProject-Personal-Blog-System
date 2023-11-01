@@ -18,10 +18,10 @@ async function addNewUser(newUser) {
     return result.lastID;
 }
 //so the user can review the details in their account
-async function retrieveNewUserDetails() {
+async function retrieveNewUserDetails(userId) {
     const db = await dbPromise;
 
-    const userDetails = await db.all(SQL`select * from user where userId=${userId} `);
+    const userDetails = await db.all(SQL`select * from user where id=${userId} `);
 
     return userDetails;
 }
