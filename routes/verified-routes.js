@@ -5,7 +5,6 @@ const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 const upload = require("../middleware/multer-uploader.js");
 const fs = require("fs");
 
-const themeDao = require("../modules/theme-dao.js");
 const articleDao = require("../modules/article-dao.js");
 const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
@@ -195,24 +194,5 @@ router.get("/deleteUserLike/:articleId", async function(req, res) {
     }
 
 });
-
-/*
-async function fetchAllArticleDetails(allArticles){
-    for(let article of allArticles){
-        //await retrieveArticleDetails(article);
-        const themeName = await themeDao.retrieveNameById(article.themeId);
-        article.themeName = themeName.name;
-        const allImages = await imageDao.retrieveAllImagesByArticleId(article.id);
-        article.images = allImages;
-        console.log(article);
-    }
-}
-
-
-async function getThemeOptions(){
-    const options = await themeDao.retrieveAllThemeData();
-    return options;
-}
-*/
 
 module.exports = router;
