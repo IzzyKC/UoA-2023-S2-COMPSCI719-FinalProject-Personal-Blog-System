@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const testDao = require("../modules/test-dao.js");
 const articleDao = require("../modules/article-dao.js");
 const article = require("../modules/article-module.js");
 const userDao = require("../modules/user-dao.js");
@@ -10,7 +9,6 @@ const userDao = require("../modules/user-dao.js");
 
 router.get("/", async function(req, res) {
     res.locals.title = "Philanthropic-Polar-Bears";
-    //res.locals.allTestData = await testDao.retrieveAllTestData();
 
     const userId = req.body.userId;
     const userName = req.body.userName;

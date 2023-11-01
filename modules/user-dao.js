@@ -1,7 +1,7 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js")
 
-
+/*
  * Inserts the new user into the database. 
  * Then, return the ID which the database auto-assigned
  * 
@@ -27,7 +27,7 @@ async function retrieveNewUserDetails() {
 }
 
 
-
+/*
  * Inserts the given user into the database. Then, reads the ID which the database auto-assigned, and adds it
  * to the user.
  * 
@@ -151,6 +151,6 @@ module.exports = {
     retrieveAllUsers,
     updateUser,
     deleteUser,
-   addNewUser,
+    addNewUser,
     retrieveNewUserDetails
 };
