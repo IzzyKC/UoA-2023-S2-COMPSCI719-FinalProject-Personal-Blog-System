@@ -6,16 +6,16 @@ const articleDao = require("../modules/article-dao.js");
 const article = require("../modules/article-module.js");
 
 router.get("/", async function(req, res) {
-     res.locals.title = "Philanthropic-Polar-Bears";
-     //res.locals.allTestData = await testDao.retrieveAllTestData();
-
-     res.locals.homePage = true;
-     res.locals.owner = "All";
-     const sortby = req.query.sortby;
-     const user = {
-         id: 3,
-         username: "I am a test string"
-     };//TO DO delete test data res.locals.user;
+    res.locals.title = "Philanthropic-Polar-Bears";
+    //res.locals.allTestData = await testDao.retrieveAllTestData();
+    
+    res.locals.homePage = true;
+    const sortby = req.query.sortby;
+    const user = {
+        id: 3,
+        username: "I am a test string"
+    };//TO DO delete test data res.locals.user;
+    
      let allArticles = [];
      if (sortby == "asc") {
          res.locals.asc = true;
@@ -26,22 +26,20 @@ router.get("/", async function(req, res) {
      }
      await article.fetchAllArticleDetails(allArticles, user.id);
  
-     //console.log(allArticles);
      res.locals.allArticles = allArticles;
      res.render("home");
- 
-     res.render("home");
+     
  });
 
 
  router.get("/allArticles", async function (req, res) {
-     res.locals.homePage = true;
-     res.locals.owner = "All";
-     const sortby = req.query.sortby;
-     const user = {
+    res.locals.homePage = true;
+    const sortby = req.query.sortby;
+    const user = {
          id: 3,
          username: "I am a test string"
-     };//TO DO delete test data res.locals.user;
+    };//TO DO delete test data res.locals.user;
+    
      let allArticles = [];
      if (sortby == "asc") {
          res.locals.asc = true;
@@ -51,8 +49,7 @@ router.get("/", async function(req, res) {
          allArticles = await articleDao.retrieveAllArticlesDesc();
      }
      await article.fetchAllArticleDetails(allArticles, user.id);
- 
-     //console.log(allArticles);
+   
      res.locals.allArticles = allArticles;
      res.render("home");
  

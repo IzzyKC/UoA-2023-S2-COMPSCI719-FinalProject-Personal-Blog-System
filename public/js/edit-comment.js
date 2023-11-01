@@ -24,6 +24,25 @@ window.addEventListener("load", function () {
             }
         });
     });
+
+    const addComment = document.querySelector("#addComment");
+    addComment.addEventListener("click" , function() {
+        const commentDiv = document.querySelector("#comment-form");
+        const articleId = addComment.dataset.articleId;
+        const pageIndex =  document.querySelector("#pageIndex").innerHTML;
+        console.log(pageIndex);
+        commentDiv.innerHTML = `
+        <form action="./addComment" method="GET">
+            <div id="inpComment-layout">
+                <input type="hidden" name="InpPageIndex" value=${pageIndex}>
+                <input type="hidden" name="inpArticleId" value=${articleId}>
+                <input type="text" name="inpComment">
+                <input type="submit" value="Add">
+            <div>
+        </form>`;
+    });
+
+    
     
 });
 

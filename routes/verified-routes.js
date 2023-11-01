@@ -9,6 +9,7 @@ const articleDao = require("../modules/article-dao.js");
 const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
+const commentDao = require("../modules/comment-dao.js");
 
 //TODO add verifyAuthenticated
 router.get("/yourFavorites", async function (req, res) {
@@ -18,6 +19,10 @@ router.get("/yourFavorites", async function (req, res) {
         username: "I am a test string"
     };
     const sortby = req.query.sortby;
+    const params = {
+        sortby : sortby,
+        userid: user.id
+    };
     let allArticles = [];
     if (sortby == "asc") {
         res.locals.asc = true;
@@ -27,6 +32,8 @@ router.get("/yourFavorites", async function (req, res) {
         allArticles = await articleDao.retrieveUserFavoritesDesc(user.id);
     }
     await article.fetchAllArticleDetails(allArticles, user.id);
+    
+    //const allArticles = await article.fetchYourArticles(params);
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
     res.render("home");
@@ -50,6 +57,7 @@ router.get("/yourArticles", async function (req, res) {
         allArticles = await articleDao.retrieveAllArticlesByUserIdDesc(user.id);
     }
     await article.fetchAllArticleDetails(allArticles, user.id);
+   
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
     res.render("home");
@@ -160,10 +168,10 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
     //console.log(articleInfo);
     //await retrieveArticleDetails(articleInfo);
     if (articleInfo) {
-        res.status(200).json(articleInfo);
+        return res.status(200).json(articleInfo);
     } else {
         //res.sendStatus(404);
-        res.status(404).send({ result: `article (id:${articleId}) not Found!` });
+        return res.status(404).send({ result: `article (id:${articleId}) not Found!` });
     }
 });
 
@@ -174,10 +182,10 @@ router.get("/addUserLike/:articleId", async function(req, res) {
         const articleId = req.params.articleId;
         
         await user_articleDao.userAddLike(userId, articleId);
-        res.status(200).send({result:"user add favorite successfully!"});
+        return res.status(200).send({result:"user add favorite successfully!"});
     } catch (error) {
         console.log(error);
-        res.status(404).send({result:`${error}`});
+        return res.status(404).send({result:`${error}`});
     }
 
 });
@@ -187,12 +195,41 @@ router.get("/deleteUserLike/:articleId", async function(req, res) {
         const userId = 3;//TO DO res.locals.user.id;
         const articleId = req.params.articleId;
         await user_articleDao.userDeleteLike(userId, articleId);
-        res.status(200).send({result:"user delete favorite successfully!"});
+        return res.status(200).send({result:"user delete favorite successfully!"});
     } catch (error) {
         console.log(error);
-        res.status(404).send({result:`${error}`});
+        return res.status(404).send({result:`${error}`});
     }
 
+});
+
+router.get("/addComment", async function(req, res) {
+    const pageIndex = req.query.InpPageIndex;
+    try {
+        const userId = 1;//TO DO res.locals.user.id;
+        const articleId = req.query.inpArticleId;
+        const content = req.query.inpComment;
+        
+        console.log(pageIndex);
+        const comment = {
+            content : content,
+            articleId: articleId,
+            userId: userId
+        };
+        console.log(comment);
+        await commentDao.addNewComment(comment);
+    } catch (error) {
+        console.log(error);
+        res.setToastMessage(`Leave a comment failed : ${error}`);
+    }
+    if(pageIndex == "H"){
+        res.redirect("/");
+    }else if(pageIndex == "P"){
+        res.redirect("/yourArticles")
+    }else{
+        res.redirect("/yourFavorites")
+    }
+    
 });
 
 module.exports = router;

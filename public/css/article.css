@@ -132,7 +132,9 @@
     grid-template-rows: auto;
     grid-template-areas: 
     "body body"
-    "comment operation";
+    "comment operation"
+    "form form"
+    "list list";
 }
 
 #article-body{
@@ -228,6 +230,23 @@
 
 .right {
 	float:right;
+}
+
+#inpComment-layout {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 5px;
+    padding: 5px;
+}
+
+#comment-form{
+    grid-area: form;
+}
+
+#comment-container{
+    grid-area: list;
 }
 
 /* Responsive design */

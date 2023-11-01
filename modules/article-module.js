@@ -1,6 +1,7 @@
 const themeDao = require("../modules/theme-dao.js");
 const imageDao = require("../modules/image-dao.js");
 const userArticleDao = require("../modules/user_article-dao.js");
+const commentDao = require("../modules/comment-dao.js");
 
 async function getThemeOptions(){
     const options = await themeDao.retrieveAllThemeData();
@@ -16,12 +17,14 @@ async function fetchAllArticleDetails(allArticles, userId){
         article.images = allImages;
         const userLike = await userArticleDao.retrieveUserLike(userId, article.id);
         article.userlike = (userLike) ? true : false;
+        const comments = await commentDao.retrieveCommentByArticleId(article.id);
+        article.comments = comments;
         console.log(article);
     }
 }
 
 module.exports = {
     getThemeOptions,
-    fetchAllArticleDetails
+    fetchAllArticleDetails,
 };
 
