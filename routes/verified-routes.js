@@ -11,34 +11,37 @@ const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
 
-router.get("/allArticles", async function (req, res) {
-    res.locals.homePage = true;
-    res.locals.owner = "All";
+//TODO add verifyAuthenticated
+router.get("/yourFavorites", async function (req, res) {
+    res.locals.favoritePage = true;
+    const user = {
+        id: 3,
+        username: "I am a test string"
+    };
     const sortby = req.query.sortby;
     let allArticles = [];
     if (sortby == "asc") {
         res.locals.asc = true;
-        allArticles = await articleDao.retrieveAllArticlesAsc();
+        allArticles = await articleDao.retrieveUserFavoritesAsc(user.id);
     } else {
         res.locals.desc = true;
-        allArticles = await articleDao.retrieveAllArticlesDesc();
+        allArticles = await articleDao.retrieveUserFavoritesDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles);
+    await article.fetchAllArticleDetails(allArticles, user.id);
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
-    res.render("all-articles");
+    res.render("home");
 
 });
 
 //TO-DO add verifyAuthenticated
 router.get("/yourArticles", async function (req, res) {
-    user = {
+    res.locals.postPage = true;
+    const user = {
         id: 3,
         username: "I am a test string"
     };
     const sortby = req.query.sortby;
-    res.locals.owner = user.username;
-    res.locals.homePage = false;
     let allArticles = [];
     if (sortby == "asc") {
         res.locals.asc = true;
@@ -47,10 +50,10 @@ router.get("/yourArticles", async function (req, res) {
         res.locals.desc = true;
         allArticles = await articleDao.retrieveAllArticlesByUserIdDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles);
+    await article.fetchAllArticleDetails(allArticles, user.id);
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
-    res.render("all-articles");
+    res.render("home");
 
 });
 
@@ -144,9 +147,9 @@ router.post("/deleteArticle", async function (req, res) {
     console.log(articleId);
     try {
         await articleDao.deleteArticleByArticleId(articleId);
-        res.setToastMessage(`delete article(id:${articleId}) successfully!`);
+        res.setToastMessage(`DELETE article(id:${articleId}) successfully!`);
     } catch (error) {
-        res.setToastMessage(`delete article(id:${articleId}) failed! ${error}`);
+        res.setToastMessage(`DELETE article(id:${articleId}) failed! ${error}`);
     }
     res.redirect("/yourArticles");
 });
@@ -163,6 +166,34 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
         //res.sendStatus(404);
         res.status(404).send({ result: `article (id:${articleId}) not Found!` });
     }
+});
+
+router.get("/addUserLike/:articleId", async function(req, res) {
+    try {
+        
+        const userId = 3;//TO DO res.locals.user.id;
+        const articleId = req.params.articleId;
+        
+        await user_articleDao.userAddLike(userId, articleId);
+        res.status(200).send({result:"user add favorite successfully!"});
+    } catch (error) {
+        console.log(error);
+        res.status(404).send({result:`${error}`});
+    }
+
+});
+
+router.get("/deleteUserLike/:articleId", async function(req, res) {
+    try {
+        const userId = 3;//TO DO res.locals.user.id;
+        const articleId = req.params.articleId;
+        await user_articleDao.userDeleteLike(userId, articleId);
+        res.status(200).send({result:"user delete favorite successfully!"});
+    } catch (error) {
+        console.log(error);
+        res.status(404).send({result:`${error}`});
+    }
+
 });
 
 /*

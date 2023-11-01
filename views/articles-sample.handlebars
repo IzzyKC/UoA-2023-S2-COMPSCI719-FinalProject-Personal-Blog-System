@@ -15,7 +15,7 @@
     </h2>
 
     <div>
-        <a id="add-article" href="./addArticle" {{#if homePage}}style="visibility: hidden" {{/if}}>
+        <a id="add-article" href="./addArticle" {{#if homePage}} style="visibility: hidden" {{/if}}>
             What's in your mind?
         </a>
     </div> 
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div id="article-comment">
-                        <button class="like-button" data-article-id="{{id}}"></button>
+                        <button class="like-button {{#if userlike}} liked {{/if}}" data-article-id="{{id}}"></button>
                         <button id="addComment">comment</button>
                     </div>
                 

@@ -106,6 +106,11 @@
     height: 80px;
 }
 
+.favotite-img {
+    width: 50px;
+    height: 50px;
+}
+
 #home-nav {
     display: flex;
     flex-direction: row;
@@ -192,6 +197,38 @@
       transform: translate(-50%, -50%) scale(1.1);
     }
   }
+
+#sortby {
+    font-size: 20;
+}
+
+.divider {
+	width:750px;
+	text-align:center;
+    margin: auto;
+}
+
+.divider h2 {
+    color: #3e3341;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgb(53, 49, 49);
+}
+
+.divider hr {
+	margin-left:auto;
+	margin-right:auto;
+	width:40%;
+    border: 2px solid rgb(185, 174, 174);
+    border-radius: 10px;
+}
+
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
 
 /* Responsive design */
 /*****************************************************************/

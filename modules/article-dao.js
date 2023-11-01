@@ -79,6 +79,32 @@ async function updateArticleByArticleId(article) {
     return result;
 }
 
+async function retrieveUserFavoritesDesc(userId) {
+    const db = await dbPromise;
+
+    const allArticles = await db.all(SQL`
+    select * from article
+        where id in (
+            select articleId from user_article where userId = ${userId}
+        )
+        order by time desc;`);
+
+    return allArticles;
+}
+
+async function retrieveUserFavoritesAsc(userId) {
+    const db = await dbPromise;
+
+    const allArticles = await db.all(SQL`
+    select * from article
+        where id in (
+            select articleId from user_article where userId = ${userId}
+        )
+        order by time asc;`);
+
+    return allArticles;
+}
+
 
 // Export functions.
 module.exports = {
@@ -89,6 +115,8 @@ module.exports = {
     retrieveAllArticlesByUserIdAsc,
     deleteArticleByArticleId,
     retrieveArticlebyArticleId,
-    updateArticleByArticleId
+    updateArticleByArticleId,
+    retrieveUserFavoritesAsc,
+    retrieveUserFavoritesDesc
 
 };
