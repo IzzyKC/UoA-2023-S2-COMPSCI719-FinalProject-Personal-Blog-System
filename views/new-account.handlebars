@@ -1,14 +1,16 @@
 
     <h1>New Account</h1>
-    <form action="./newAccount" method="POST">
+    <form action="./newAccount" method="POST" onsubmit = "return verifyPassword()">
         <div class="flex-col mb">
             <label for="txtUsername">Username:</label>
             <input type="text" name="username" id="txtUsername" required>
         </div>
 
         <div class="flex-col mb">
-            <label for="txtPassword">Password:</label>
-            <input type="password" name="password" id="txtPassword" required>
+            <label for="txtpassword">Password:</label><br>
+            <input type ="password" id="txtpassword" name="password" required><br>
+            <label for="confirmPassword">Confirm Password:</label><br>
+            <input type ="password" id="confirmPassword" name="confirmPassword" required><br>
         </div>
 
         <div class="flex-col mb">
@@ -20,4 +22,19 @@
             <button type="submit">Create account</button>
         </div>
     </form>
+
+    <script>
+    function verifyPassword() {
+    var password = document.getElementById("txtpassword").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match.  Please re-enter.");
+        return false;
+    }
+    return true;
+}</script>
+
+
+ 
 
