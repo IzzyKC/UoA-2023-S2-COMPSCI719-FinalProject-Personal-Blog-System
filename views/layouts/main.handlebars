@@ -9,6 +9,7 @@
     <title>Default title.</title>
     {{/if}}
     
+    <link href="./css/login.css" rel="stylesheet" >
     <link href="./css/article.css" rel="stylesheet" >
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet"> 
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
@@ -18,19 +19,16 @@
 <body>
     <div class="container">
         <div class="nav">
-            <a href="./allArticles?sortby=desc"><img src="./images/home.png"></a>
-            <a href="./yourArticles?sortby=desc"><img src="./images/blog.png"></a> 
-            <a href="./yourFavorites?sortby=desc"><img src="./images/favorites.png"></a> 
-            <a href="./login"><img src="./images/login.png"></a>
+            <a href={{#if user}} "./allArticles?sortby=desc" {{else}} "./?sortby=desc" {{/if}}><img src="./images/system/home.png"></a>
+            <a href="./yourArticles?sortby=desc"><img src="./images/system/blog.png"></a> 
+            <a href="./yourFavorites?sortby=desc"><img src="./images/system/favorites.png"></a> 
+            {{#if user}}
+            <a href="./logout"><img src="./images/system/logout.png"></a>
+            {{else}}
+            <a href="./login"><img src="./images/system/login.png"></a>
+            {{/if}}
         </div>
-        
-        <!--
-        <nav id="home-nav">
-            <a href="./allArticles?sortby=desc">Home</a>
-            <a href="#">For You</a>
-            <a href="./yourArticles?sortby=desc">Yours</a> 
-        </nav>
-        -->
+
         {{#if toastMessage}}
         <p>{{toastMessage}}</p>
         {{/if}}

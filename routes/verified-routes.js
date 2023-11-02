@@ -11,8 +11,32 @@ const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
 const commentDao = require("../modules/comment-dao.js");
 
+
+router.get("/allArticles", verifyAuthenticated, async function(req, res) {
+    res.locals.title = "Philanthropic-Polar-Bears";
+    const user = res.locals.user;
+
+    res.locals.homePage = true;
+    const sortby = req.query.sortby;
+    
+     let allArticles = [];
+     if (sortby == "asc") {
+         res.locals.asc = true;
+         allArticles = await articleDao.retrieveAllArticlesAsc();
+     } else {
+         res.locals.desc = true;
+         allArticles = await articleDao.retrieveAllArticlesDesc();
+     }
+     await article.fetchAllArticleDetails(allArticles, user);
+     res.locals.allArticles = allArticles;
+
+
+     res.render("home");
+     
+ });
+
 //TODO add verifyAuthenticated
-router.get("/yourFavorites", async function (req, res) {
+router.get("/yourFavorites", verifyAuthenticated,  async function (req, res) {
     res.locals.favoritePage = true;
     const user = {
         id: 3,
@@ -41,7 +65,7 @@ router.get("/yourFavorites", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.get("/yourArticles", async function (req, res) {
+router.get("/yourArticles", verifyAuthenticated, async function (req, res) {
     res.locals.postPage = true;
     const user = {
         id: 3,
@@ -112,11 +136,11 @@ router.post("/saveArticle", upload.array("imageFiles", 15), async function (req,
         for (let fileInfo of fileInfoArray) {
             // Move the image into the images folder
             const oldFileName = fileInfo.path;
-            const newFileName = `./public/images/${articleId}-${fileInfo.originalname}`;
+            const newFileName = `./public/images/upload/${articleId}-${fileInfo.originalname}`;
             fs.renameSync(oldFileName, newFileName);
             //insert db
             const image = {
-                path: `./images/${articleId}-${fileInfo.originalname}`,
+                path: `./images/upload/${articleId}-${fileInfo.originalname}`,
                 articleId: articleId
             }
             await imageDao.addImage(image);
@@ -221,7 +245,7 @@ router.get("/addComment", async function(req, res) {
         res.setToastMessage(`LEAVE A COMMENT FAILED : ${error}`);
     }
     if(pageIndex == "H"){
-        res.redirect("/");
+        res.redirect("/allArticles");
     }else if(pageIndex == "P"){
         res.redirect("/yourArticles")
     }else{

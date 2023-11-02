@@ -1,6 +1,10 @@
 <script src="./js/edit-comment.js"></script>
 
 <div>
+    {{#if user}}
+    <h3>Hello, {{user.username}}!</h3>
+    {{/if}}
+    
     <h5>
         <form action=
             {{#if homePage}} "./allArticles" 
