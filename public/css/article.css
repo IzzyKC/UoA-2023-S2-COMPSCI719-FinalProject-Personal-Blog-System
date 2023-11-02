@@ -1,6 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=Borel&family=Handjet:wght@300;500;700;800&family=Open+Sans:ital,wght@1,500&family=Poppins:ital,wght@1,200&family=Roboto:wght@500&display=swap');
+
+body {
+    margin: 0px;
+    color: rgb(66, 20, 78);
+    font-family: 'Roboto', sans-serif, serif;
+    
+    background-image: url("../images/background.jpg");
+    
+    background-color: #a4f5ee;
+    
+}
+
+
 .container {
     margin: 10px;
+    box-shadow: 6px 6px 6px rgba(83, 82, 82, 0.2);
+    background-color: #b4c5c4;
 }
+
+.nav {
+    padding: 20px;
+    background-color: #df943f;
+    box-shadow: 6px 6px 6px rgba(83, 82, 82, 0.2);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 1.5em;
+}
+  
+.nav > a {
+color: rgb(29, 14, 63);
+text-decoration: none;
+font-weight: bolder;
+
+}
+
+.nav img {
+    width: 50px;
+    height: 50px;
+}
+
 #article-fieldset {
     margin:10px
 }
@@ -109,21 +148,6 @@
 .favotite-img {
     width: 50px;
     height: 50px;
-}
-
-#home-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-#home-nav a{
-    text-decoration: none;
-    margin: 20px;
-    border: 2px solid;
-    border-style: 2px solid;
-    border-radius: 5px;
-    background-color: rgb(227, 226, 228);
 }
 
 #grid-article {

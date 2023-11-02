@@ -1,8 +1,13 @@
 <script src="./js/edit-comment.js"></script>
 
 <div>
-    <h4>
-        <form action={{#if homePage}} "./allArticles" {{else}} "./yourArticles" {{/if}} method="GET">
+    <h5>
+        <form action=
+            {{#if homePage}} "./allArticles" 
+            {{else if postPage}} "./yourArticles" 
+            {{else}} "./yourFavorites" 
+            {{/if}} 
+            method="GET">
             <label for="sortby">Sort by:</label>
             <select id="sortby" name="sortby" onchange="this.form.submit()">
                 <option value="asc" {{#if asc}} selected {{/if}}>Oldest</option>

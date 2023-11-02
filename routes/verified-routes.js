@@ -65,14 +65,14 @@ router.get("/yourArticles", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.get("/addArticle", async function (req, res) {
+router.get("/addArticle", verifyAuthenticated, async function (req, res) {
     res.locals.action = "ADD";
     res.locals.themeOptions = await article.getThemeOptions();
     res.render("edit-article");
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/saveArticle", upload.array("imageFiles", 15), async function (req, res) {
+router.post("/saveArticle", verifyAuthenticated, upload.array("imageFiles", 15), async function (req, res) {
     const pageAction = req.body.inpaction;
     const user = {
         id: 3,
@@ -138,7 +138,7 @@ router.get("/backToYours", function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/editArticle", async function (req, res) {
+router.post("/editArticle", verifyAuthenticated, async function (req, res) {
     res.locals.action = "EDIT";
     res.locals.edit = true;
     const articleId = req.body.articleInfo;
@@ -149,7 +149,7 @@ router.post("/editArticle", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/deleteArticle", async function (req, res) {
+router.post("/deleteArticle", verifyAuthenticated, async function (req, res) {
     const articleId = req.body.articleId;
     console.log(articleId);
     try {
@@ -162,7 +162,7 @@ router.post("/deleteArticle", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.get("/getArticleInfo/:articleId", async function (req, res) {
+router.get("/getArticleInfo/:articleId", verifyAuthenticated, async function (req, res) {
     const articleId = req.params.articleId;
     let articleInfo = await articleDao.retrieveArticlebyArticleId(articleId);
     //console.log(articleInfo);
@@ -175,7 +175,7 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
     }
 });
 
-router.get("/addUserLike/:articleId", async function(req, res) {
+router.get("/addUserLike/:articleId", verifyAuthenticated, async function(req, res) {
     try {
         
         const userId = 3;//TO DO res.locals.user.id;
@@ -190,7 +190,7 @@ router.get("/addUserLike/:articleId", async function(req, res) {
 
 });
 
-router.get("/deleteUserLike/:articleId", async function(req, res) {
+router.get("/deleteUserLike/:articleId", verifyAuthenticated, async function(req, res) {
     try {
         const userId = 3;//TO DO res.locals.user.id;
         const articleId = req.params.articleId;
@@ -203,7 +203,7 @@ router.get("/deleteUserLike/:articleId", async function(req, res) {
 
 });
 
-router.get("/addComment", async function(req, res) {
+router.get("/addComment", verifyAuthenticated, async function(req, res) {
     const pageIndex = req.query.InpPageIndex;
     try {
         const userId = 1;//TO DO res.locals.user.id;
