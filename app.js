@@ -35,6 +35,8 @@ app.use(require("./middleware/toaster-middleware.js"));
 app.use(require("./routes/application-routes.js"));
 //log-in user routes
 app.use(require("./routes/verified-routes.js"));
+//user operation routes
+app.use(require("./routes/user-routes.js"));
 
 
 // Start the server running.

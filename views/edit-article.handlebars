@@ -1,6 +1,8 @@
 <script src="./js/edit-article.js"></script>
 
-
+    {{#if toastMessage}}
+    <p> {{toastMessage}}</p>
+    {{/if}}
     <div id="article-editor">
         <fieldset id="article-fieldset">
             <legend id="legend">

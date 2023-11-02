@@ -123,11 +123,11 @@ router.post("/saveArticle", upload.array("imageFiles", 15), async function (req,
             //console.log(addImageResult);
         }
 
-        res.setToastMessage(`${pageAction} article successsfully!`)
+        res.setToastMessage(`${pageAction} POST SUCCESSFULLY!`)
 
     } catch (error) {
 
-        res.setToastMessage(`${pageAction} new article failed! ${error}`);
+        res.setToastMessage(`${pageAction} POST FAILED! ${error}`);
     }
     res.redirect("/yourArticles");
 });
@@ -154,9 +154,10 @@ router.post("/deleteArticle", async function (req, res) {
     console.log(articleId);
     try {
         await articleDao.deleteArticleByArticleId(articleId);
-        res.setToastMessage(`DELETE article(id:${articleId}) successfully!`);
+        res.setToastMessage(`DELETE POST ( id : ${articleId} ) SUCCESSFULLY!`);
     } catch (error) {
-        res.setToastMessage(`DELETE article(id:${articleId}) failed! ${error}`);
+        console.log(error);
+        res.setToastMessage(`DELETE POST ( id : ${articleId} ) FAILED! ${error}`);
     }
     res.redirect("/yourArticles");
 });
@@ -171,7 +172,7 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
         return res.status(200).json(articleInfo);
     } else {
         //res.sendStatus(404);
-        return res.status(404).send({ result: `article (id:${articleId}) not Found!` });
+        return res.status(404).send({ result: `POST (id:${articleId}) not Found!` });
     }
 });
 
@@ -182,7 +183,7 @@ router.get("/addUserLike/:articleId", async function(req, res) {
         const articleId = req.params.articleId;
         
         await user_articleDao.userAddLike(userId, articleId);
-        return res.status(200).send({result:"user add favorite successfully!"});
+        return res.status(200).send({result:"USER ADD FAVORITE SUCCESSFULLY!"});
     } catch (error) {
         console.log(error);
         return res.status(404).send({result:`${error}`});
@@ -195,7 +196,7 @@ router.get("/deleteUserLike/:articleId", async function(req, res) {
         const userId = 3;//TO DO res.locals.user.id;
         const articleId = req.params.articleId;
         await user_articleDao.userDeleteLike(userId, articleId);
-        return res.status(200).send({result:"user delete favorite successfully!"});
+        return res.status(200).send({result:"USER DELETE FAVORITE SUCCESSFULLY!"});
     } catch (error) {
         console.log(error);
         return res.status(404).send({result:`${error}`});
@@ -220,7 +221,7 @@ router.get("/addComment", async function(req, res) {
         await commentDao.addNewComment(comment);
     } catch (error) {
         console.log(error);
-        res.setToastMessage(`Leave a comment failed : ${error}`);
+        res.setToastMessage(`LEAVE A COMMENT FAILED : ${error}`);
     }
     if(pageIndex == "H"){
         res.redirect("/");
