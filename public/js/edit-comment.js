@@ -36,8 +36,8 @@ window.addEventListener("load", function () {
             <div id="inpComment-layout">
                 <input type="hidden" name="InpPageIndex" value=${pageIndex}>
                 <input type="hidden" name="inpArticleId" value=${articleId}>
-                <input type="text" name="inpComment">
-                <input type="submit" value="Add">
+                <textarea type="text" name="inpComment" id="inpComment" rows="3" cols="50"></textarea>
+                <input type="submit" value="Add" id="inpCommentSubmit">
             <div>
         </form>`;
     });

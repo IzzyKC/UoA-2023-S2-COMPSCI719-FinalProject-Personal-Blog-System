@@ -1,5 +1,8 @@
+const { v4: uuid } = require("uuid");
 const express = require("express");
 const router = express.Router();
+
+const userDao = require("../modules/user-dao.js");
 
 router.get("/login", function (req, res) {
 
@@ -30,7 +33,8 @@ router.post("/login", async function (req, res) {
         await userDao.updateUser(user);
         res.cookie("authToken", authToken);
         res.locals.user = user;
-        res.redirect("/");
+        res.redirect("/allArticles");
+        
     }
 
     // Otherwise, if there's no matching user...
@@ -40,6 +44,12 @@ router.post("/login", async function (req, res) {
         res.setToastMessage("Authentication failed!");
         res.redirect("./login");
     }
+});
+
+router.get("/logout", function (req, res) {
+    res.clearCookie("authToken");
+    res.setToastMessage(`See you next time, ${res.locals.user.username}!`);
+    res.redirect("./login");
 });
 
 router.get("/newAccount", function(req, res) {

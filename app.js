@@ -30,6 +30,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Use the toaster middleware
 app.use(require("./middleware/toaster-middleware.js"));
+const { addUserToLocals } = require("./middleware/auth-middleware.js");
+app.use(addUserToLocals);
 
 // Setup routes
 app.use(require("./routes/application-routes.js"));

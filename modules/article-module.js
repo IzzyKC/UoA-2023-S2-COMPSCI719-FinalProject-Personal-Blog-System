@@ -8,15 +8,17 @@ async function getThemeOptions(){
     return options;
 }
 
-async function fetchAllArticleDetails(allArticles, userId){
+async function fetchAllArticleDetails(allArticles, user){
     for(let article of allArticles){
         //await retrieveArticleDetails(article);
         const themeName = await themeDao.retrieveNameById(article.themeId);
         article.themeName = themeName.name;
         const allImages = await imageDao.retrieveAllImagesByArticleId(article.id);
         article.images = allImages;
-        const userLike = await userArticleDao.retrieveUserLike(userId, article.id);
-        article.userlike = (userLike) ? true : false;
+        if(user){
+            const userLike = await userArticleDao.retrieveUserLike(user.id, article.id);
+            article.userlike = (userLike) ? true : false;
+        }
         const comments = await commentDao.retrieveCommentByArticleId(article.id);
         article.comments = comments;
         console.log(article);
