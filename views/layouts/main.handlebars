@@ -8,6 +8,7 @@
     {{else}}
     <title>Default title.</title>
     {{/if}}
+    
     <link href="./css/article.css" rel="stylesheet" >
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet"> 
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
@@ -16,15 +17,44 @@
 
 <body>
     <div class="container">
-        
-        <div class="nav">
-            <a href="./?sortby=desc"><img src="./images/home.png"></a>
-            <a href="./yourArticles?sortby=desc"><img src="./images/blog.png"></a>
-            <a href="./yourFavorites?sortby=desc"><img src="./images/favorites.png"></a>
-            <a href="#"><img src="./images/message.png"></a>
-            <a href="./login"><img src="./images/login.png"></a>
-        </div>
-
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                        aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Welcome!</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="{{#if homePage}} active {{/if}}"><a href="./allArticles?sortby=desc">Home</a></li>
+                        <li class="{{#if foryouPage}} active {{/if}}"><a href="#">For You</a></li>
+                        <!--
+                        <li class="{{#if yoursPage}} active {{/if}}"><a href="./yourArticles?sortby=desc">Yours</a></li>
+                        -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Yours<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="{{#if postPage}} active {{/if}}"><a href="./yourArticles?sortby=desc">Post</a></li>
+                                <li class="{{#if favoritePage}} active {{/if}}"><a href="./yourFavorites?sortby=desc">Favorite</a></li>
+                            </ul>
+                        </li>
+                        <li class="{{#if messagePage}} active {{/if}}"><a href="#">Message</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--
+        <nav id="home-nav">
+            <a href="./allArticles?sortby=desc">Home</a>
+            <a href="#">For You</a>
+            <a href="./yourArticles?sortby=desc">Yours</a> 
+        </nav>
+        -->
         {{#if toastMessage}}
         <p>{{toastMessage}}</p>
         {{/if}}

@@ -35,22 +35,11 @@ app.use(require("./middleware/toaster-middleware.js"));
 app.use(require("./routes/application-routes.js"));
 //log-in user routes
 app.use(require("./routes/verified-routes.js"));
+//user operation routes
+app.use(require("./routes/user-routes.js"));
 
 
 // Start the server running.
 app.listen(port, function () {
     console.log(`The Best App In The World ™️ listening on port ${port}!`);
 });
-
-app.get("/processPassword", function(req, res){
-    const password = req.query.password;
-    const confirmPassword = req.query.confirmPassword;
-    
-    const data ={
-        password: password,
-        confirmPassword : confirmPassword
-    };
-    res.json(data);    
-    })
-
-

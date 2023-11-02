@@ -14,19 +14,19 @@
                 <option value="desc" {{#if desc}} selected {{/if}}>Newest</option>
             </select>
         </form>
-    </h4>
-    <span id="pageIndex" style="visibility: hidden" >
-        {{#if homePage}}H{{/if}} 
-        {{#if postPage}}P{{/if}} 
-        {{#if favoritePage}}F{{/if}}
-    </span>
+    </h5>
+    
 </div>
-
 
 <div>
     <a id="add-article" href="./addArticle" {{#if postPage}} {{else}} style="visibility: hidden" {{/if}}>
         What's in your mind?
     </a>
+    <span id="pageIndex" style="visibility: hidden" >
+        {{#if homePage}}H{{/if}} 
+        {{#if postPage}}P{{/if}} 
+        {{#if favoritePage}}F{{/if}}
+    </span>
 </div>
 
 <div class="articles-container">
@@ -50,6 +50,27 @@
                         {{{content}}}
                     </div>
                 </div>
+
+                {{#if this.comments}}
+                <div id="comment-container">
+                    <h4>Comments : </h4>
+                    {{#each this.comments}}
+                    <div>
+                        <p><em>{{username}} : </em>{{content}}     <i>..</i>{{time}}</i></p>
+                    </div>
+                    {{/each}}
+                    <!--
+                    <ul id="comment-list">
+                        {{#each this.comments}}
+                        <li>
+                            {{userId}} : {{content}}   {{time}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                    -->
+                </div>
+                {{/if}}
+
                 <div id="article-comment">
                     <button class="like-button {{#if userlike}} liked {{/if}}" data-article-id="{{id}}"></button>
                     <button id="addComment" data-article-id="{{id}}">
@@ -69,25 +90,7 @@
 
                 <div id="comment-form"></div>
                 
-                {{#if this.comments}}
-                <div id="comment-container">
-                    <h5>Comment : </h5>
-                    {{#each this.comments}}
-                    <div>
-                        <p><em>{{username}} : </em>{{content}}     <i>..</i>{{time}}</i></p>
-                    </div>
-                    {{/each}}
-                    <!--
-                    <ul id="comment-list">
-                        {{#each this.comments}}
-                        <li>
-                            {{userId}} : {{content}}   {{time}}
-                        </li>
-                        {{/each}}
-                    </ul>
-                    -->
-                </div>
-                {{/if}}
+                
                 
             </div>
             <div class="hr-container">

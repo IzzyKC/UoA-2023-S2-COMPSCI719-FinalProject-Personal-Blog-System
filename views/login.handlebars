@@ -1,0 +1,28 @@
+
+    {{! Display a toast message if one was provided. }}
+    {{#if toastMessage}}
+    <p>{{toastMessage}}</p>
+    {{/if}}
+    
+
+    <h1>Login</h1>
+    <form action="./login" method="POST">
+        <div class="flex-col mb">
+            <label for="txtUsername">Username:</label>
+            <input type="text" name="username" id="txtUsername" required>
+        </div>
+
+        <div class="flex-col mb">
+            <label for="txtPassword">Password:</label>
+            <input type="password" name="password" id="txtPassword" required>
+        </div>
+
+        <div class="flex-row justify-sb align-center">
+            <button type="submit">Log in</button>
+        </div>
+    </form>
+
+     <form action="/newAccount">
+            <input id="add-account-button" type="image" src="./images/add-account.png" alt="Submit"/>
+    </form>
+

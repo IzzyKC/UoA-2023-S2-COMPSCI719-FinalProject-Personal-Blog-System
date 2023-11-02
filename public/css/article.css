@@ -156,9 +156,10 @@ font-weight: bolder;
     grid-template-rows: auto;
     grid-template-areas: 
     "body body"
+    "list list"
     "comment operation"
-    "form form"
-    "list list";
+    "form form";
+    
 }
 
 #article-body{
@@ -192,7 +193,7 @@ font-weight: bolder;
     font-weight: bolder;
     margin: auto 5px;
     border: 2px solid darkgray;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .like-button {
@@ -271,6 +272,21 @@ font-weight: bolder;
 
 #comment-container{
     grid-area: list;
+}
+
+#login-button {
+    width: 40px;
+    height: 40px;
+    float: right;
+    margin: 5px;
+}
+
+#add-account-button {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin: 5px;
+    
 }
 
 /* Responsive design */
