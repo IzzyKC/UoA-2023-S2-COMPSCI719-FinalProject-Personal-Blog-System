@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS user(
     username varchar(64) UNIQUE NOT NULL,
     password varchar(64) NOT NULL,
     name varchar(64),
-	dateOfBirth timestamp,
+	birth timestamp,
 	description text,
     authToken varchar(128),
 	icon TEXT NOT NULL,
