@@ -4,6 +4,7 @@ const router = express.Router();
 const articleDao = require("../modules/article-dao.js");
 const article = require("../modules/article-module.js");
 const userDao = require("../modules/user-dao.js");
+const bcrypt = require('bcrypt');
 
 
 
@@ -60,6 +61,16 @@ router.get("/", async function(req, res) {
      res.render("home");
  
  });
+
+router.post("/processPassword", async function(req, res){
+    try{ const password = req.body.password;
+        const hash = await bcrypt.hash(password,10);
+        console.log(hash);
+    } catch(e){
+        console.log(e);
+        res.status(500).send("Something Broke")
+    }    
+    })
 
  
 
