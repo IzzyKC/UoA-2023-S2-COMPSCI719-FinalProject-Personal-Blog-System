@@ -43,16 +43,3 @@ app.use(require("./routes/user-routes.js"));
 app.listen(port, function () {
     console.log(`The Best App In The World ™️ listening on port ${port}!`);
 });
-
-app.get("/processPassword", function(req, res){
-    const password = req.query.password;
-    const confirmPassword = req.query.confirmPassword;
-    
-    const data ={
-        password: password,
-        confirmPassword : confirmPassword
-    };
-    res.json(data);    
-    })
-
-
