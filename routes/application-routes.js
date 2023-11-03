@@ -7,6 +7,7 @@ const userDao = require("../modules/user-dao.js");
 const bcrypt = require('bcrypt');
 
  router.get("/", async function (req, res) {
+    res.locals.title = "philanthropic-polar-bears";
     res.locals.homePage = true;
     const sortby = req.query.sortby;
     const user = res.locals.user;
@@ -26,25 +27,6 @@ const bcrypt = require('bcrypt');
     res.render("home");
      
  });
-
-router.post("/processPassword", async function(req, res){
-    try{ const password = req.body.password;
-        const hash = await bcrypt.hash(password,10);
-        console.log(hash);
-    } catch(e){
-        console.log(e);
-        res.status(500).send("Something Broke")
-    }    
-    })
-
- 
-
-//router to test whether password function worked
-router.get("/password", async function(req, res) {
-
-     res.render("password");
-});
-
 
 module.exports = router
 

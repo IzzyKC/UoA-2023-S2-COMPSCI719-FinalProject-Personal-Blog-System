@@ -22,11 +22,17 @@
             <a href={{#if user}} "./allArticles?sortby=desc" {{else}} "./?sortby=desc" {{/if}}><img src="./images/system/home.png"></a>
             <a href="./yourArticles?sortby=desc"><img src="./images/system/blog.png"></a> 
             <a href="./yourFavorites?sortby=desc"><img src="./images/system/favorites.png"></a> 
+            
+            {{#if user}}
+                <a href="./updateAccount"><img class="user-icon" src="{{user.icon}}"></a>
+            {{/if}}
+
             {{#if user}}
             <a href="./logout"><img src="./images/system/logout.png"></a>
             {{else}}
             <a href="./login"><img src="./images/system/login.png"></a>
             {{/if}}
+
         </div>
 
         {{#if toastMessage}}
@@ -34,6 +40,7 @@
         {{/if}}
         {{{body}}}
     </div>
+     
 </body>
 
 </html>

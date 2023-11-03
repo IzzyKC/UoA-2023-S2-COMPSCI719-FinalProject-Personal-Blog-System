@@ -26,22 +26,24 @@ window.addEventListener("load", function () {
     });
 
     const addComment = document.querySelector("#addComment");
-    addComment.addEventListener("click" , function() {
-        const commentDiv = document.querySelector("#comment-form");
-        const articleId = addComment.dataset.articleId;
-        const pageIndex = addComment.dataset.pageIndex;
-        commentDiv.innerHTML = `
-        <form action="./addComment" method="GET">
-            <div id="inpComment-layout">
-                <input type="hidden" name="InpPageIndex" value=${pageIndex}>
-                <input type="hidden" name="inpArticleId" value=${articleId}>
-                <textarea type="text" name="inpComment" id="inpComment" 
-                    rows="3" cols="50" placeholder="enter your comment">
-                </textarea>
-                <input type="submit" value="Add" id="inpCommentSubmit">
-            <div>
-        </form>`;
-    });
+    if(addComment){
+        addComment.addEventListener("click" , function() {
+            const commentDiv = document.querySelector("#comment-form");
+            const articleId = addComment.dataset.articleId;
+            const pageIndex = addComment.dataset.pageIndex;
+            commentDiv.innerHTML = `
+            <form action="./addComment" method="GET">
+                <div id="inpComment-layout">
+                    <input type="hidden" name="InpPageIndex" value=${pageIndex}>
+                    <input type="hidden" name="inpArticleId" value=${articleId}>
+                    <textarea name="inpComment" id="inpComment" 
+                        rows="3" cols="50" placeholder="enter your comment">
+                    </textarea>
+                    <input type="submit" value="Add" id="inpCommentSubmit">
+                <div>
+            </form>`;
+        });
+    }
 
     
     

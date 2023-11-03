@@ -1,16 +1,64 @@
+<script src="./js/new-account.js"></script>
 
 <div class="form-container">
     <fieldset>
         <legend>Account Info</legend>
-        <form action="./newAccount" method="POST" onsubmit = "return verifyPassword()">
-            <div class="flex-col mb">
-                <label for="txtUsername">Username:</label>
-                <input type="text" name="username" id="txtUsername" required>
+        <form id="new-account-form" action="./newAccount" method="POST">
+            <div class="avatar-icon-div">
+            <h5>Select your icon:</h5>
+            <input type="radio" name="avatar" id="ape" class="avatar-radio" value="./images/avatar/ape.jpg" required/>
+            <label for="ape">
+                <img class="avatar-img" src="./images/avatar/ape.jpg" alt="ape" />
+            </label>
+
+            <input type="radio" name="avatar" id="cat" class="avatar-radio" value="./images/avatar/cat.jpg" required/>
+            <label for="cat">
+                <img class="avatar-img"  src="./images/avatar/cat.jpg" alt="cat" />
+            </label>
+
+            <input type="radio" name="avatar" id="dog" class="avatar-radio" value="./images/avatar/dog.jpg" required/>
+            <label for="dog">
+                <img class="avatar-img"  src="./images/avatar/dog.jpg" alt="dog" />
+            </label>
+
+            <input type="radio" name="avatar" id="fox" class="avatar-radio" value="./images/avatar/fox.jpg" required/>
+            <label for="fox">
+                <img class="avatar-img"  src="./images/avatar/fox.jpg" alt="fox" />
+            </label>
+
+            <input type="radio" name="avatar" id="koala" class="avatar-radio" value="./images/avatar/koala.jpg" required/>
+            <label for="koala">
+                <img class="avatar-img" src="./images/avatar/koala.jpg" alt="koala" />
+            </label>
+
+            <input type="radio" name="avatar" id="lion" class="avatar-radio" value="./images/avatar/lion.jpg" required/>
+            <label for="lion">
+                <img class="avatar-img"  src="./images/avatar/lion.jpg" alt="lion" />
+            </label>
+
+            <input type="radio" name="avatar" id="rabbit" class="avatar-radio" value="./images/avatar/rabbit.jpg" required/>
+            <label for="rabbit">
+                <img class="avatar-img"  src="./images/avatar/rabbit.jpg" alt="rabbit" />
+            </label>
+
+            <input type="radio" name="avatar" id="tiger" class="avatar-radio" value="./images/avatar/tiger.jpg" required/>
+            <label for="tiger">
+                <img class="avatar-img"  src="./images/avatar/tiger.jpg" alt="tiger" />
+            </label>
+
+
+
             </div>
 
             <div class="flex-col mb">
-                <label for="txtpassword">Password:</label>
-                <input type ="password" id="txtpassword" name="password" required><br>
+                <label for="txtUsername">Username:</label>
+                <input type="text" name="username" id="txtUsername" required>
+                <span id="username-check"></span>
+            </div>
+
+            <div class="flex-col mb">
+                <label for="txtPassword">Password:</label>
+                <input type ="password" id="txtPassword" name="password" required><br>
             </div>
 
             <div class="flex-col mb">
@@ -24,34 +72,25 @@
             </div>
 
             <div class="flex-col mb">
-            <label for="txtName">Date of Birth:</label>
-            <input type="date" name="birth" id="birth" required>
+                <label for="birth">Date of Birth:</label>
+                <input type="date" name="birth" id="birth">
             </div>
 
             <div class="flex-col mb">
-            <label for="txtName">Description:</label>
-            <textarea type="text" name="name" id="txtName" rows="8" cols="80" placeholder="about you" required></textarea>
+                <label for="txtDescription">Description:</label>
+                <textarea class="txtarea-account" name="description" id="txtDescription" 
+                    rows="8" cols="80" placeholder="about you">
+                </textarea>
             </div>
 
             <div class="flex-row justify-sb align-center">
-                <button type="submit">Create account</button>
+                <button id="create-account" type="submit">Create account</button>
             </div>
         </form>
     </fieldset>
 </div>
 
 
-    <script>
-    function verifyPassword() {
-    var password = document.getElementById("txtpassword").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
-
-    if (password !== confirmPassword) {
-        alert("Passwords do not match.  Please re-enter.");
-        return false;
-    }
-    return true;
-}</script>
 
 
  

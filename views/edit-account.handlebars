@@ -1,0 +1,50 @@
+<div class="form-container">
+    <fieldset>
+        <legend>Account Info</legend>
+        <form id="new-account-form" action="./saveUpdate" method="POST">
+
+            <div class="fixed-col">
+                <h2>Username: {{user.username}}</h2>
+            </div>
+
+            <div class="flex-col mb">
+                <label for="txtPassword">Password:</label>
+                <input type ="password" id="txtPassword" name="password" value="{{user.password}}" disabled>
+            </div>
+
+            <div class="flex-col mb">
+                <label for="txtName">Name:</label>
+                <input type="text" name="name" id="txtName" value="{{user.name}}" required>
+            </div>
+
+            <div class="flex-col mb">
+                <label for="birth">Date of Birth:</label>
+                <input type="date" name="birth" id="birth" value="{{user.birth}}">
+            </div>
+
+            <div class="flex-col mb">
+                <label for="txtDescription">Description:</label>
+                <textarea class="txtarea-account" name="description" id="txtDescription" 
+                    rows="8" cols="80" placeholder="about you" value>
+                    {{user.description}}
+                </textarea>
+            </div>
+
+            <div class="flex-row justify-sb align-center">
+                <button id="update-account" type="submit">update account</button>
+            </div>
+            
+        </form>
+
+        <form action="./deleteAccount" method="POST">
+            <button id="delete-account" type="submit">delete account</button>
+        </form>
+        
+    </fieldset>
+</div>
+
+
+
+
+ 
+
