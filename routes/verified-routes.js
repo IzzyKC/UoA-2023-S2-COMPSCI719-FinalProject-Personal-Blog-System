@@ -27,10 +27,8 @@ router.get("/allArticles", verifyAuthenticated, async function(req, res) {
          res.locals.desc = true;
          allArticles = await articleDao.retrieveAllArticlesDesc();
      }
-     await article.fetchAllArticleDetails(allArticles, user);
+     await article.fetchAllArticleDetails(allArticles, user, "A");
      res.locals.allArticles = allArticles;
-
-
      res.render("home");
      
  });
@@ -38,10 +36,7 @@ router.get("/allArticles", verifyAuthenticated, async function(req, res) {
 //TODO add verifyAuthenticated
 router.get("/yourFavorites", verifyAuthenticated,  async function (req, res) {
     res.locals.favoritePage = true;
-    const user = {
-        id: 3,
-        username: "I am a test string"
-    };
+    const user = res.locals.user;
     const sortby = req.query.sortby;
     const params = {
         sortby : sortby,
@@ -55,7 +50,7 @@ router.get("/yourFavorites", verifyAuthenticated,  async function (req, res) {
         res.locals.desc = true;
         allArticles = await articleDao.retrieveUserFavoritesDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles, user.id);
+    await article.fetchAllArticleDetails(allArticles, user, "F");
     
     //const allArticles = await article.fetchYourArticles(params);
     //console.log(allArticles);
@@ -67,10 +62,7 @@ router.get("/yourFavorites", verifyAuthenticated,  async function (req, res) {
 //TO-DO add verifyAuthenticated
 router.get("/yourArticles", verifyAuthenticated, async function (req, res) {
     res.locals.postPage = true;
-    const user = {
-        id: 3,
-        username: "I am a test string"
-    };
+    const user = res.locals.user;
     const sortby = req.query.sortby;
     let allArticles = [];
     if (sortby == "asc") {
@@ -80,7 +72,7 @@ router.get("/yourArticles", verifyAuthenticated, async function (req, res) {
         res.locals.desc = true;
         allArticles = await articleDao.retrieveAllArticlesByUserIdDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles, user.id);
+    await article.fetchAllArticleDetails(allArticles, user, "P");
    
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
@@ -96,12 +88,9 @@ router.get("/addArticle", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/saveArticle", upload.array("imageFiles", 15), async function (req, res) {
+router.post("/saveArticle", verifyAuthenticated, upload.array("imageFiles", 15), async function (req, res) {
     const pageAction = req.body.inpaction;
-    const user = {
-        id: 3,
-        username: "TEST1"
-    };//res.locals.user;//TO-DO merge log in function, get user data
+    const user = res.locals.user;
     const themeId = (req.body.theme == '0') ? 999 : req.body.theme;
     const article = {
         title: req.body.title,
@@ -168,7 +157,7 @@ router.post("/editArticle", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/deleteArticle", async function (req, res) {
+router.post("/deleteArticle", verifyAuthenticated, async function (req, res) {
     const articleId = req.body.articleId;
     console.log(articleId);
     try {
@@ -179,6 +168,7 @@ router.post("/deleteArticle", async function (req, res) {
         res.setToastMessage(`DELETE POST ( id : ${articleId} ) FAILED! ${error}`);
     }
     res.redirect("/yourArticles");
+
 });
 
 //TO-DO add verifyAuthenticated
@@ -195,13 +185,13 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
     }
 });
 
-router.get("/addUserLike/:articleId", async function(req, res) {
+router.get("/addUserLike/:articleId", verifyAuthenticated, async function(req, res) {
     try {
         
-        const userId = 3;//TO DO res.locals.user.id;
+        const user = res.locals.user;
         const articleId = req.params.articleId;
         
-        await user_articleDao.userAddLike(userId, articleId);
+        await user_articleDao.userAddLike(user.id, articleId);
         return res.status(200).send({result:"USER ADD FAVORITE SUCCESSFULLY!"});
     } catch (error) {
         console.log(error);
@@ -210,13 +200,11 @@ router.get("/addUserLike/:articleId", async function(req, res) {
 
 });
 
-router.get("/deleteUserLike/:articleId", async function(req, res) {
+router.get("/deleteUserLike/:articleId", verifyAuthenticated, async function(req, res) {
     try {
-        const userId = 3;//TO DO res.locals.user.id;
+        const user = res.locals.user;
         const articleId = req.params.articleId;
-        console.log(userId);
-        console.log(articleId);
-        await user_articleDao.userDeleteLike(userId, articleId);
+        await user_articleDao.userDeleteLike(user.id, articleId);
         return res.status(200).send({result:"USER DELETE FAVORITE SUCCESSFULLY!"});
     } catch (error) {
         console.log(error);
@@ -225,10 +213,10 @@ router.get("/deleteUserLike/:articleId", async function(req, res) {
 
 });
 
-router.get("/addComment", async function(req, res) {
+router.get("/addComment", verifyAuthenticated, async function(req, res) {
     const pageIndex = req.query.InpPageIndex;
     try {
-        const userId = 1;//TO DO res.locals.user.id;
+        const user = res.locals.user;
         const articleId = req.query.inpArticleId;
         const content = req.query.inpComment;
         
@@ -236,21 +224,15 @@ router.get("/addComment", async function(req, res) {
         const comment = {
             content : content,
             articleId: articleId,
-            userId: userId
+            userId: user.id
         };
-        console.log(comment);
         await commentDao.addNewComment(comment);
     } catch (error) {
         console.log(error);
         res.setToastMessage(`LEAVE A COMMENT FAILED : ${error}`);
     }
-    if(pageIndex == "H"){
-        res.redirect("/allArticles");
-    }else if(pageIndex == "P"){
-        res.redirect("/yourArticles")
-    }else{
-        res.redirect("/yourFavorites")
-    }
+    res.redirect(article.getNextPage(pageIndex));
+    
     
 });
 

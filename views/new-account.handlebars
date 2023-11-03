@@ -1,27 +1,45 @@
 
-    <h1>New Account</h1>
-    <form action="./newAccount" method="POST" onsubmit = "return verifyPassword()">
-        <div class="flex-col mb">
-            <label for="txtUsername">Username:</label>
-            <input type="text" name="username" id="txtUsername" required>
-        </div>
+<div class="form-container">
+    <fieldset>
+        <legend>Account Info</legend>
+        <form action="./newAccount" method="POST" onsubmit = "return verifyPassword()">
+            <div class="flex-col mb">
+                <label for="txtUsername">Username:</label>
+                <input type="text" name="username" id="txtUsername" required>
+            </div>
 
-        <div class="flex-col mb">
-            <label for="txtpassword">Password:</label><br>
-            <input type ="password" id="txtpassword" name="password" required><br>
-            <label for="confirmPassword">Confirm Password:</label><br>
-            <input type ="password" id="confirmPassword" name="confirmPassword" required><br>
-        </div>
+            <div class="flex-col mb">
+                <label for="txtpassword">Password:</label>
+                <input type ="password" id="txtpassword" name="password" required><br>
+            </div>
 
-        <div class="flex-col mb">
-            <label for="txtName">Name:</label>
-            <input type="text" name="name" id="txtName" required>
-        </div>
+            <div class="flex-col mb">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type ="password" id="confirmPassword" name="confirmPassword" required><br>   
+            </div>
 
-        <div class="flex-row justify-sb align-center">
-            <button type="submit">Create account</button>
-        </div>
-    </form>
+            <div class="flex-col mb">
+                <label for="txtName">Name:</label>
+                <input type="text" name="name" id="txtName" required>
+            </div>
+
+            <div class="flex-col mb">
+            <label for="txtName">Date of Birth:</label>
+            <input type="date" name="birth" id="birth" required>
+            </div>
+
+            <div class="flex-col mb">
+            <label for="txtName">Description:</label>
+            <textarea type="text" name="name" id="txtName" rows="8" cols="80" placeholder="about you" required></textarea>
+            </div>
+
+            <div class="flex-row justify-sb align-center">
+                <button type="submit">Create account</button>
+            </div>
+        </form>
+    </fieldset>
+</div>
+
 
     <script>
     function verifyPassword() {
