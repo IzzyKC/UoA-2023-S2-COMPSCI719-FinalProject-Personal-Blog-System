@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS image(
 CREATE TABLE IF NOT EXISTS comment(
 
 	parentCommentId INTEGER NOT NULL,
+	id INTEGER NOT NULL,
 	content TEXT NOT NULL,
 	time timestamp NOT NULL,
 	articleId INTEGER NOT NULL,
