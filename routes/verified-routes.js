@@ -244,20 +244,27 @@ router.get("/updateAccount", verifyAuthenticated, function(req, res) {
 });
 
 router.post("/saveUpdate", verifyAuthenticated, async function(req, res) {
+    console.log("save update");
     const user = res.locals.user;
+    console.log(user);
+    console.log(req.body.avatar);
     try {
         const update= {
+            username: req.body.username,
             name: req.body.name,
             birth: req.body.birth,
             description: req.body.description,
+            icon: req.body.avatar,
             id: user.id
         }
+        console.log(update);
         await userDao.updateUserInfo(update);
         res.setToastMessage("UPDATE USER INFO SUCCESSFULLY!");   
     }catch(error){
+        console.log(error);
         res.setToastMessage("UPDATE USER INFO FAILED!");   
     }finally{
-        res.redirect("/updateAccount");
+        res.redirect("/");
     }
     
 });

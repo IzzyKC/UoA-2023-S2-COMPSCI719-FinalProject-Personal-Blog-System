@@ -131,7 +131,10 @@ async function updateUserInfo(user) {
 
     await db.run(SQL`
         update user
-        set name = ${user.name}, birth = ${user.birth}, description = ${user.description}
+        set username = ${user.username}, name = ${user.name}, 
+            birth = ${user.birth}, 
+            description = ${user.description},
+            icon = ${user.icon}
         where id = ${user.id}`);
 }
 

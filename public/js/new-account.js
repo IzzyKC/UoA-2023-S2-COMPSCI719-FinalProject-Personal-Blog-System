@@ -2,6 +2,8 @@ window.addEventListener("load", function () {
     const txtUsername = document.querySelector("#txtUsername");
     var validUsername = false;
 
+    initializeIconForUpdate();
+
     txtUsername.addEventListener("change", async function(event) {
         console.log(event.target.value);
         console.log(txtUsername.value);
@@ -10,13 +12,26 @@ window.addEventListener("load", function () {
 
     
     const newAccountForm = document.querySelector("#new-account-form");
-    newAccountForm.addEventListener("submit", function(event) {
-        if(validUsername && verifyPassword()){
-            return true;
-        }else{
-            event.preventDefault();
-        }
-    });
+    if(newAccountForm){
+        newAccountForm.addEventListener("submit", function(event) {
+            if(validUsername && verifyPassword()){
+                return true;
+            }else{
+                event.preventDefault();
+            }
+        });
+    }
+
+    const updateAccountForm = document.querySelector("#update-account-form");
+    if(updateAccountForm){
+        updateAccountForm.addEventListener("submit", function(event) {
+            if(validUsername){
+                return true;
+            }else{
+                event.preventDefault();
+            }
+        });
+    }
     
 
     /*
@@ -68,5 +83,20 @@ window.addEventListener("load", function () {
         }
         return true;
     }
+
+    function initializeIconForUpdate() {
+        const dbIcon = document.querySelector("#dbIcon");
+        //console.log(dbIcon);
+        if(dbIcon){
+            const iconValue = dbIcon.value;
+            const radiobuttons = document.querySelectorAll(".icon-radio");
+            radiobuttons.forEach(function(radio) {
+                if(radio.value == iconValue){
+                    radio.checked =true;
+                }
+            });
+        }
+    
+    };
 
 });
