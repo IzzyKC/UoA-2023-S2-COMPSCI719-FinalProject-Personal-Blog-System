@@ -1,6 +1,7 @@
 window.addEventListener("load", function () {
     const txtUsername = document.querySelector("#txtUsername");
-    var validUsername = false;
+    var validUsername = txtUsername ? true : false;
+    console.log(validUsername);
 
     initializeIconForUpdate();
 
@@ -24,6 +25,7 @@ window.addEventListener("load", function () {
 
     const updateAccountForm = document.querySelector("#update-account-form");
     if(updateAccountForm){
+        console.log(validUsername);
         updateAccountForm.addEventListener("submit", function(event) {
             if(validUsername){
                 return true;
