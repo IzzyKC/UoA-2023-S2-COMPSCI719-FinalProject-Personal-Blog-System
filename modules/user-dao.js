@@ -138,6 +138,16 @@ async function updateUserInfo(user) {
         where id = ${user.id}`);
 }
 
+async function updatePassword(password , id) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        update user
+        set password = ${password}
+        where id = ${id}`);
+}
+
+
 // Export functions.
 module.exports = {
     retrieveUserById,
@@ -148,5 +158,6 @@ module.exports = {
     updateUserToken,
     deleteUser,
     addNewUser,
-    updateUserInfo
+    updateUserInfo,
+    updatePassword
 };
