@@ -68,7 +68,7 @@ router.post("/processPassword", async function(req, res){
         console.log(hash);
     } catch(e){
         console.log(e);
-        res.status(500).send("Something Broke")
+        res.status(500).send("Password not added")
     }    
     })
 

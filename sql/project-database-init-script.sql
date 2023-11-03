@@ -82,12 +82,13 @@ CREATE TABLE IF NOT EXISTS image(
 );
 
 CREATE TABLE IF NOT EXISTS comment(
-	id INTEGER NOT NULL,
+
+	parentCommentId INTEGER NOT NULL,
 	content TEXT NOT NULL,
 	time timestamp NOT NULL,
 	articleId INTEGER NOT NULL,
 	userId INTEGER NOT NULL,
-	PRIMARY KEY(id),
+	PRIMARY KEY(parentCommentId),
 	FOREIGN KEY(articleId) REFERENCES article(id) on DELETE CASCADE,
 	FOREIGN KEY(userId) REFERENCES user(id) on DELETE CASCADE
 );
