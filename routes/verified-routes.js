@@ -10,6 +10,7 @@ const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
 const commentDao = require("../modules/comment-dao.js");
+const userDao = require("../modules/user-dao.js");
 
 
 router.get("/allArticles", verifyAuthenticated, async function(req, res) {
@@ -234,6 +235,50 @@ router.get("/addComment", verifyAuthenticated, async function(req, res) {
     res.redirect(article.getNextPage(pageIndex));
     
     
+});
+
+
+router.get("/updateAccount", verifyAuthenticated, function(req, res) {
+    res.render("edit-account");
+
+});
+
+router.post("/saveUpdate", verifyAuthenticated, async function(req, res) {
+    console.log("save update");
+    const user = res.locals.user;
+    console.log(user);
+    console.log(req.body.avatar);
+    try {
+        const update= {
+            username: req.body.username,
+            name: req.body.name,
+            birth: req.body.birth,
+            description: req.body.description,
+            icon: req.body.avatar,
+            id: user.id
+        }
+        console.log(update);
+        await userDao.updateUserInfo(update);
+        res.setToastMessage("UPDATE USER INFO SUCCESSFULLY!");   
+    }catch(error){
+        console.log(error);
+        res.setToastMessage("UPDATE USER INFO FAILED!");   
+    }finally{
+        res.redirect("/");
+    }
+    
+});
+
+router.post("/deleteAccount", verifyAuthenticated, async function(req, res) {
+    const user = res.locals.user;
+    try {
+        await userDao.deleteUser(user.id);
+        res.setToastMessage("DELETE USER INFO SUCCESSFULLY!");   
+    }catch(error){
+        res.setToastMessage("DELETE USER INFO FAILED!");   
+    }finally{
+        res.redirect("/login");
+    }
 });
 
 module.exports = router;

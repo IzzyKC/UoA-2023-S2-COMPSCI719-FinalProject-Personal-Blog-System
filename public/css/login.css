@@ -20,7 +20,7 @@ body {
 
 .flex-col {
     display: flex;
-    align-items: center;
+    align-items: left;
     margin: 10px;
 }
 
@@ -39,5 +39,37 @@ body {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+}
+
+#username-check {
+    color: brown;
+    margin: 0 10px;
+} 
+
+.avatar-icon-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.avatar-img {
+    width: 60px;
+    height: 60px;
+}
+
+.user-icon {
+    width: 80px;
+    height: 80px;
+}
+
+.txtarea-account {
+    text-align: left;
+    overflow:auto; 
+    border:2px outset #000000;
+}
+
+form {
+    margin: 10px;
 }
 
