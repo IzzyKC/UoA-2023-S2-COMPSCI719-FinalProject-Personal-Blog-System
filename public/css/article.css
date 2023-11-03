@@ -1,30 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow&family=Borel&family=Handjet:wght@300;500;700;800&family=Open+Sans:ital,wght@1,500&family=Poppins:ital,wght@1,200&family=Roboto:wght@500&display=swap');
 
 body {
-    margin: 0px;
     color: rgb(66, 20, 78);
     font-family: 'Roboto', sans-serif, serif;
     
-    background-image: url("../images/background.jpg");
-    
+    background-image: url("../images/system/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     background-color: #a4f5ee;
+    background-position: 50% 50%;
+    
     
 }
 
 
 .container {
-    margin: 10px;
+    margin: auto;
     box-shadow: 6px 6px 6px rgba(83, 82, 82, 0.2);
     background-color: #b4c5c4;
+    overflow: auto;
+}
+
+h1, h2, h3, h4, h5 ,a {
+    margin: 5px;
+    padding: 5px;
 }
 
 .nav {
+    top: 0;
     padding: 20px;
     background-color: #df943f;
     box-shadow: 6px 6px 6px rgba(83, 82, 82, 0.2);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
     font-size: 1.5em;
 }
   
@@ -36,6 +46,7 @@ font-weight: bolder;
 }
 
 .nav img {
+    padding: 5px;
     width: 50px;
     height: 50px;
 }
@@ -124,11 +135,11 @@ font-weight: bolder;
     text-decoration: none;
     text-align: center;
     color: white;
-    background-color: #84a19f;
-    padding: 5px 11px;
-    border-style: 2px solid;
+    background-color: #428f8a;
+    border-style: 1px solid;
     border-radius: 10px;
-    margin: 10px auto;
+    box-shadow: 6px 6px 6px rgba(123, 153, 153, 0.2);
+    margin: auto 10px;
 }
 
 #uploaded-container, .preview-image, .images-container {
@@ -188,7 +199,7 @@ font-weight: bolder;
     margin:5px;
 }
 
-#article-operation button, #addComment{
+#article-operation button, #addComment, #inpCommentSubmit{
     font-size: 16;
     font-weight: bolder;
     margin: auto 5px;
@@ -267,6 +278,10 @@ font-weight: bolder;
 }
 
 #comment-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
     grid-area: form;
 }
 
@@ -284,11 +299,9 @@ font-weight: bolder;
 #add-account-button {
     width: 40px;
     height: 40px;
-    float: left;
     margin: 5px;
     
 }
-
 /* Responsive design */
 /*****************************************************************/
 @media screen and (min-width: 960px) {
@@ -298,4 +311,3 @@ font-weight: bolder;
     }
 }
 /*****************************************************************/
-

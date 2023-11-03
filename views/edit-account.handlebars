@@ -1,0 +1,109 @@
+<script src="./js/new-account.js"></script>
+
+<div class="form-container">
+    <fieldset>
+        <legend>Account Info</legend>
+        <form id="update-account-form" action="./saveUpdate" method="POST">
+            <input id="dbIcon" type="hidden" value="{{user.icon}}">
+            <!--icon start-->
+            <div class="avatar-icon-div">
+            <h5>Select your icon:</h5>
+            <input class="icon-radio" type="radio" name="avatar" id="ape" class="avatar-radio" value="./images/avatar/ape.jpg" required/>
+            <label for="ape">
+                <img class="avatar-img" src="./images/avatar/ape.jpg" alt="ape" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="cat" class="avatar-radio" value="./images/avatar/cat.jpg" required/>
+            <label for="cat">
+                <img class="avatar-img"  src="./images/avatar/cat.jpg" alt="cat" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="dog" class="avatar-radio" value="./images/avatar/dog.jpg" required/>
+            <label for="dog">
+                <img class="avatar-img"  src="./images/avatar/dog.jpg" alt="dog" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="fox" class="avatar-radio" value="./images/avatar/fox.jpg" required/>
+            <label for="fox">
+                <img class="avatar-img"  src="./images/avatar/fox.jpg" alt="fox" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="koala" class="avatar-radio" value="./images/avatar/koala.jpg" required/>
+            <label for="koala">
+                <img class="avatar-img" src="./images/avatar/koala.jpg" alt="koala" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="lion" class="avatar-radio" value="./images/avatar/lion.jpg" required/>
+            <label for="lion">
+                <img class="avatar-img"  src="./images/avatar/lion.jpg" alt="lion" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="rabbit" class="avatar-radio" value="./images/avatar/rabbit.jpg" required/>
+            <label for="rabbit">
+                <img class="avatar-img"  src="./images/avatar/rabbit.jpg" alt="rabbit" />
+            </label>
+
+            <input class="icon-radio" type="radio" name="avatar" id="tiger" class="avatar-radio" value="./images/avatar/tiger.jpg" required/>
+            <label for="tiger">
+                <img class="avatar-img"  src="./images/avatar/tiger.jpg" alt="tiger" />
+            </label>
+           
+            </div>
+            <!--icon end-->
+
+            <div class="flex-col mb">
+                <label for="txtUsername">Username:</label>
+                <input type="text" name="username" id="txtUsername" value="{{user.username}}" required>
+                <span id="username-check"></span>
+            </div>
+
+            <div class="flex-col mb">
+                <label for="txtPassword">Password:</label>
+                <input type ="password" id="txtPassword" name="password" value="{{user.password}}" disabled>
+            </div>
+
+            <!--
+            <div class="flex-col mb">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type ="password" id="confirmPassword" name="confirmPassword" required><br>   
+            </div>
+            -->
+
+            <div class="flex-col mb">
+                <label for="txtName">Name:</label>
+                <input type="text" name="name" id="txtName" value="{{user.name}}" required>
+            </div>
+
+            <div class="flex-col mb">
+                <label for="birth">Date of Birth:</label>
+                <input type="date" name="birth" id="birth" value="{{user.birth}}">
+            </div>
+
+            <div class="flex-col mb">
+                <label for="txtDescription">Description:</label>
+                <textarea class="txtarea-account" name="description" id="txtDescription" rows="8" cols="80" placeholder="about you" value>{{user.description}}</textarea>
+            </div>
+
+            <div class="flex-row justify-sb align-center">
+                <button id="update-account" type="submit">update account</button>
+            </div>
+            
+        </form>
+        
+        <form action="/changePassword" method="GET"> 
+            <button id="delete-account" type="submit">Change password</button>
+        </form>
+
+        <form action="./deleteAccount" method="POST">
+            <button id="delete-account" type="submit">delete account</button>
+        </form>
+        
+        
+    </fieldset>
+</div>
+
+
+
+
+ 
+

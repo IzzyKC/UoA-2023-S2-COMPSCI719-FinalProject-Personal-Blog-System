@@ -1,5 +1,9 @@
+const { v4: uuid } = require("uuid");
 const express = require("express");
 const router = express.Router();
+
+const userDao = require("../modules/user-dao.js");
+const bcrypt = require('bcrypt');
 
 router.get("/login", function (req, res) {
 
@@ -21,62 +25,85 @@ router.post("/login", async function (req, res) {
 
     // Find a matching user in the database
     const user = await userDao.retrieveUserWithCredentials(username, password);
+    const dbPassword = (user) ? user.password : bcrypt.genSaltSync(10);
+    console.log(user);
+    bcrypt.compare(password, dbPassword, async (err, data) => {
+        //if error than throw error
+        if (err) throw err
 
-    // if there is a matching user...
-    if (user) {
-        // Auth success - give that user an authToken, save the token in a cookie, and redirect to the homepage.
-        const authToken = uuid();
-        user.authToken = authToken;
-        await userDao.updateUser(user);
-        res.cookie("authToken", authToken);
-        res.locals.user = user;
-        res.redirect("/");
-    }
+        //if both match than you can do anything
+        if (data) {
+            if (user) {
+                // Auth success - give that user an authToken, save the token in a cookie, and redirect to the homepage.
+                const authToken = uuid();
+                user.authToken = authToken;
+                await userDao.updateUserToken(user);
+                res.cookie("authToken", authToken);
+                res.locals.user = user;
+                res.redirect("/allArticles");
+            }
+        } else {
+            // Auth fail
+            res.locals.user = null;
+            if(user == null || user == undefined) {
+                res.setToastMessage("Authentication failed! Username not found!");
+            }else{
+                res.setToastMessage("Authentication failed! Password does not match!");
+            }
+            res.redirect("./login");
+        }
 
-    // Otherwise, if there's no matching user...
-    else {
-        // Auth fail
-        res.locals.user = null;
-        res.setToastMessage("Authentication failed!");
-        res.redirect("./login");
-    }
+    });
+    
+});
+
+router.get("/logout", function (req, res) {
+    res.clearCookie("authToken");
+    res.setToastMessage(`See you next time, ${res.locals.user.username}!`);
+    res.redirect("./login");
 });
 
 router.get("/newAccount", function(req, res) {
-    res.render("./new-account");
+    res.render("new-account");
 
 });
 
-router.post("/newAccount", function(req, res) {
+router.post("/newAccount", async function(req, res) {
+    const hashPassword = await bcrypt.hash( req.body.password , 10 );
+
     const user = {
         username: req.body.username,
-        password: req.body.password,
-        name: req.body.name
+        password: hashPassword,
+        name: req.body.name,
+        birth: req.body.birth,
+        description: req.body.description,
+        icon: req.body.avatar
     };
+    console.log(user);
+
     try{
-        userDao.createUser(user);
+        userDao.addNewUser(user);
         res.setToastMessage("Account created successfully!");
         res.redirect("./login");
+
     }catch(error){
-        res.setToastMessage("create new account fails: Username has benn taken!")
-        res.redirect("./newAccount");
+        console.log(error);
+        res.setToastMessage(`create new account fails: username has been taken!`)
+        //res.redirect("./newAccount");
+        return;
     }
     
 });
 
-router.get("/updateAccount", function(req, res) {
-
+router.get("/checkDuplicatedUsername/:username" , async function(req, res) {
+    const username = req.params.username;
+    try{
+        const result = await userDao.retrieveUserByUsername(username);
+    //console.log(result);
+        return res.status(200).send({ result });
+    }catch(error){
+        return res.status(404).send({ result: `${error}` });
+    }
 });
-
-router.post("/saveUpdate", function(req, res) {
-    
-});
-
-router.post("/deleteAccount", function(req, res) {
-
-});
-
-
-
 
 module.exports = router

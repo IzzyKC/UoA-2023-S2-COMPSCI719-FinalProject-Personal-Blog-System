@@ -1,6 +1,10 @@
 <script src="./js/edit-comment.js"></script>
 
 <div>
+    {{#if user}}
+    <h3>Hello, {{user.username}}!</h3>
+    {{/if}}
+    
     <h5>
         <form action=
             {{#if homePage}} "./allArticles" 
@@ -14,26 +18,29 @@
                 <option value="desc" {{#if desc}} selected {{/if}}>Newest</option>
             </select>
         </form>
-    </h5>
-    
+    </h5>   
 </div>
 
 <div>
     <a id="add-article" href="./addArticle" {{#if postPage}} {{else}} style="visibility: hidden" {{/if}}>
         What's in your mind?
     </a>
+    <!--
     <span id="pageIndex" style="visibility: hidden" >
         {{#if homePage}}H{{/if}} 
         {{#if postPage}}P{{/if}} 
         {{#if favoritePage}}F{{/if}}
     </span>
+    -->
+    
 </div>
 
 <div class="articles-container">
-
+    
     <ul id="all-articles">
         {{#each allArticles}}
         <li class="article-item" id="li-{{id}}">
+             {{user.username}}
             <div id="grid-article">
                 <div id="article-body">
                     <h3>Title : <span>{{title}}</span></h3>
@@ -56,27 +63,23 @@
                     <h4>Comments : </h4>
                     {{#each this.comments}}
                     <div>
-                        <p><em>{{username}} : </em>{{content}}     <i>..</i>{{time}}</i></p>
+                        <p><em>{{username}} : </em>{{content}}<span></span><i>..</i>{{time}}</i></p>
                     </div>
                     {{/each}}
-                    <!--
-                    <ul id="comment-list">
-                        {{#each this.comments}}
-                        <li>
-                            {{userId}} : {{content}}   {{time}}
-                        </li>
-                        {{/each}}
-                    </ul>
-                    -->
+                    
                 </div>
                 {{/if}}
 
                 <div id="article-comment">
+                    {{#if likable}}
                     <button class="like-button {{#if userlike}} liked {{/if}}" data-article-id="{{id}}"></button>
-                    <button id="addComment" data-article-id="{{id}}">
-                        Leave a comment</button>
+                    {{/if}}
+                    {{#if commentable}}
+                    <button id="addComment" data-article-id="{{id}}" data-page-Index="{{pageIndex}}">Leave a comment</button>
+                    {{/if}}
                 </div>
-
+                
+                {{#if userArticle}}
                 <div id="article-operation">
                     <form action="./editArticle" method="POST">
                         <input id="articleInfo" name="articleInfo" type="hidden" value="{{this.id}}">
@@ -87,6 +90,7 @@
                         <button id="delete-article">Delete</button>
                     </form>
                 </div>
+                {{/if}}
 
                 <div id="comment-form"></div>
                 

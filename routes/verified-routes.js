@@ -10,14 +10,35 @@ const user_articleDao = require("../modules/user_article-dao.js");
 const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
 const commentDao = require("../modules/comment-dao.js");
+const userDao = require("../modules/user-dao.js");
+const bcrypt = require('bcrypt');
+
+
+router.get("/allArticles", verifyAuthenticated, async function(req, res) {
+    res.locals.title = "Philanthropic-Polar-Bears";
+    const user = res.locals.user;
+
+    res.locals.homePage = true;
+    const sortby = req.query.sortby;
+    
+     let allArticles = [];
+     if (sortby == "asc") {
+         res.locals.asc = true;
+         allArticles = await articleDao.retrieveAllArticlesAsc();
+     } else {
+         res.locals.desc = true;
+         allArticles = await articleDao.retrieveAllArticlesDesc();
+     }
+     await article.fetchAllArticleDetails(allArticles, user, "A");
+     res.locals.allArticles = allArticles;
+     res.render("home");
+     
+ });
 
 //TODO add verifyAuthenticated
-router.get("/yourFavorites", async function (req, res) {
+router.get("/yourFavorites", verifyAuthenticated,  async function (req, res) {
     res.locals.favoritePage = true;
-    const user = {
-        id: 3,
-        username: "I am a test string"
-    };
+    const user = res.locals.user;
     const sortby = req.query.sortby;
     const params = {
         sortby : sortby,
@@ -31,7 +52,7 @@ router.get("/yourFavorites", async function (req, res) {
         res.locals.desc = true;
         allArticles = await articleDao.retrieveUserFavoritesDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles, user.id);
+    await article.fetchAllArticleDetails(allArticles, user, "F");
     
     //const allArticles = await article.fetchYourArticles(params);
     //console.log(allArticles);
@@ -41,12 +62,9 @@ router.get("/yourFavorites", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.get("/yourArticles", async function (req, res) {
+router.get("/yourArticles", verifyAuthenticated, async function (req, res) {
     res.locals.postPage = true;
-    const user = {
-        id: 3,
-        username: "I am a test string"
-    };
+    const user = res.locals.user;
     const sortby = req.query.sortby;
     let allArticles = [];
     if (sortby == "asc") {
@@ -56,7 +74,7 @@ router.get("/yourArticles", async function (req, res) {
         res.locals.desc = true;
         allArticles = await articleDao.retrieveAllArticlesByUserIdDesc(user.id);
     }
-    await article.fetchAllArticleDetails(allArticles, user.id);
+    await article.fetchAllArticleDetails(allArticles, user, "P");
    
     //console.log(allArticles);
     res.locals.allArticles = allArticles;
@@ -72,12 +90,9 @@ router.get("/addArticle", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/saveArticle", upload.array("imageFiles", 15), async function (req, res) {
+router.post("/saveArticle", verifyAuthenticated, upload.array("imageFiles", 15), async function (req, res) {
     const pageAction = req.body.inpaction;
-    const user = {
-        id: 3,
-        username: "TEST1"
-    };//res.locals.user;//TO-DO merge log in function, get user data
+    const user = res.locals.user;
     const themeId = (req.body.theme == '0') ? 999 : req.body.theme;
     const article = {
         title: req.body.title,
@@ -112,11 +127,11 @@ router.post("/saveArticle", upload.array("imageFiles", 15), async function (req,
         for (let fileInfo of fileInfoArray) {
             // Move the image into the images folder
             const oldFileName = fileInfo.path;
-            const newFileName = `./public/images/${articleId}-${fileInfo.originalname}`;
+            const newFileName = `./public/images/upload/${articleId}-${fileInfo.originalname}`;
             fs.renameSync(oldFileName, newFileName);
             //insert db
             const image = {
-                path: `./images/${articleId}-${fileInfo.originalname}`,
+                path: `./images/upload/${articleId}-${fileInfo.originalname}`,
                 articleId: articleId
             }
             await imageDao.addImage(image);
@@ -144,7 +159,7 @@ router.post("/editArticle", async function (req, res) {
 });
 
 //TO-DO add verifyAuthenticated
-router.post("/deleteArticle", async function (req, res) {
+router.post("/deleteArticle", verifyAuthenticated, async function (req, res) {
     const articleId = req.body.articleId;
     console.log(articleId);
     try {
@@ -155,6 +170,7 @@ router.post("/deleteArticle", async function (req, res) {
         res.setToastMessage(`DELETE POST ( id : ${articleId} ) FAILED! ${error}`);
     }
     res.redirect("/yourArticles");
+
 });
 
 //TO-DO add verifyAuthenticated
@@ -171,13 +187,13 @@ router.get("/getArticleInfo/:articleId", async function (req, res) {
     }
 });
 
-router.get("/addUserLike/:articleId", async function(req, res) {
+router.get("/addUserLike/:articleId", verifyAuthenticated, async function(req, res) {
     try {
         
-        const userId = 3;//TO DO res.locals.user.id;
+        const user = res.locals.user;
         const articleId = req.params.articleId;
         
-        await user_articleDao.userAddLike(userId, articleId);
+        await user_articleDao.userAddLike(user.id, articleId);
         return res.status(200).send({result:"USER ADD FAVORITE SUCCESSFULLY!"});
     } catch (error) {
         console.log(error);
@@ -186,13 +202,11 @@ router.get("/addUserLike/:articleId", async function(req, res) {
 
 });
 
-router.get("/deleteUserLike/:articleId", async function(req, res) {
+router.get("/deleteUserLike/:articleId", verifyAuthenticated, async function(req, res) {
     try {
-        const userId = 3;//TO DO res.locals.user.id;
+        const user = res.locals.user;
         const articleId = req.params.articleId;
-        console.log(userId);
-        console.log(articleId);
-        await user_articleDao.userDeleteLike(userId, articleId);
+        await user_articleDao.userDeleteLike(user.id, articleId);
         return res.status(200).send({result:"USER DELETE FAVORITE SUCCESSFULLY!"});
     } catch (error) {
         console.log(error);
@@ -201,10 +215,10 @@ router.get("/deleteUserLike/:articleId", async function(req, res) {
 
 });
 
-router.get("/addComment", async function(req, res) {
+router.get("/addComment", verifyAuthenticated, async function(req, res) {
     const pageIndex = req.query.InpPageIndex;
     try {
-        const userId = 1;//TO DO res.locals.user.id;
+        const user = res.locals.user;
         const articleId = req.query.inpArticleId;
         const content = req.query.inpComment;
         
@@ -212,22 +226,78 @@ router.get("/addComment", async function(req, res) {
         const comment = {
             content : content,
             articleId: articleId,
-            userId: userId
+            userId: user.id
         };
-        console.log(comment);
         await commentDao.addNewComment(comment);
     } catch (error) {
         console.log(error);
         res.setToastMessage(`LEAVE A COMMENT FAILED : ${error}`);
     }
-    if(pageIndex == "H"){
+    res.redirect(article.getNextPage(pageIndex));
+    
+    
+});
+
+
+router.get("/updateAccount", verifyAuthenticated, function(req, res) {
+    res.render("edit-account");
+
+});
+
+router.post("/saveUpdate", verifyAuthenticated, async function(req, res) {
+    const user = res.locals.user;
+    try {
+        const update= {
+            username: req.body.username,
+            name: req.body.name,
+            birth: req.body.birth,
+            description: req.body.description,
+            icon: req.body.avatar,
+            id: user.id
+        }
+        console.log(update);
+        await userDao.updateUserInfo(update);
+        res.setToastMessage("UPDATE USER INFO SUCCESSFULLY!");   
+    }catch(error){
+        console.log(error);
+        res.setToastMessage(`UPDATE USER INFO FAILED!:${error}`);   
+    }finally{
         res.redirect("/");
-    }else if(pageIndex == "P"){
-        res.redirect("/yourArticles")
-    }else{
-        res.redirect("/yourFavorites")
     }
     
 });
+
+router.post("/deleteAccount", verifyAuthenticated, async function(req, res) {
+    const user = res.locals.user;
+    try {
+        await userDao.deleteUser(user.id);
+        res.setToastMessage("DELETE USER INFO SUCCESSFULLY!");   
+    }catch(error){
+        res.setToastMessage("DELETE USER INFO FAILED!");   
+    }finally{
+        res.redirect("/login");
+    }
+});
+
+router.get("/changePassword", verifyAuthenticated, function(req, res) {
+    res.render("change-password");
+});
+
+router.post("/updatePassword", verifyAuthenticated, async function(req, res) {
+    const user = res.locals.user;
+    const hashPassword = await bcrypt.hash( req.body.password , 10 );
+    try {
+        console.log(hashPassword);
+        await userDao.updatePassword(hashPassword, user.id);
+        res.setToastMessage("UPDATE PASSWORD SUCCESSFULLY!");   
+    }catch(error){
+        console.log(error);
+        res.setToastMessage(`UPDATE PASSWORD FAILED!:${error}`);   
+    }finally{
+        res.redirect("/");
+    }
+    
+});
+
 
 module.exports = router;

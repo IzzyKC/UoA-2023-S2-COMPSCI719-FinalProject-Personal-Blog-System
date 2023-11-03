@@ -1,69 +1,101 @@
 <script src="./js/edit-comment.js"></script>
 
-<div class="container">
-    <h1>{{owner}} articles: </h1>
-    <h2>
-        <div>
-            <form action={{#if homePage}} "./allArticles" {{else}} "./yourArticles" {{/if}} method="GET">
-                <label for="sortby">Sort by:</label>
-                <select id="sortby" name="sortby"  onchange="this.form.submit()">
-                    <option value="asc" {{#if asc}} selected {{/if}}>Oldest</option>
-                    <option value="desc" {{#if desc}} selected {{/if}}>Newest</option>
-                </select>
-            </form>
-        </div>
-    </h2>
-
-    <div>
-        <a id="add-article" href="./addArticle" {{#if homePage}} style="visibility: hidden" {{/if}}>
-            What's in your mind?
-        </a>
-    </div> 
+<div>
+    {{#if user}}
+    <h3>Hello, {{user.username}}!</h3>
+    {{/if}}
     
-    <div class="articles-container">
-        
-        <ul id="all-articles">
-            {{#each allArticles}}
-            <li class="article-item">
-                <div id="grid-article">
-                    <div id="article-body">
-                        <h2>Title : <span>{{title}}</span></h2>
-                        <h3>Theme : <span>{{themeName}}</span></32>
-                        <h3>Time : <span>{{time}}</span></h3>
-                        <div class="images-container">
-                            {{#each images}}
-                            <div class="images">
-                                <img class="article-img" src="{{this.path}}">
-                            </div>
-                            {{/each}}
-                        </div>
-                        <div class="article-content">
-                            {{{content}}}
-                        </div>
-                    </div>
-                    <div id="article-comment">
-                        <button class="like-button {{#if userlike}} liked {{/if}}" data-article-id="{{id}}"></button>
-                        <button id="addComment">comment</button>
-                    </div>
-                
-                    <div id="article-operation">
-                        <form action="./editArticle" method="POST">
-                            <input id="articleInfo" name="articleInfo" type="hidden" value="{{this.id}}">
-                            <button id="edit-article">Edit</button>
-                        </form>
-                        <form action="./deleteArticle" method="POST">
-                            <input id="articleId" name="articleId" type="hidden" value="{{this.id}}">
-                            <button id="delete-article">Delete</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="hr-container">
-                    <hr class="article-hr">
-                </div>
-            </li>
-            {{/each}}
-        </ul>
+    <h5>
+        <form action=
+            {{#if homePage}} "./allArticles" 
+            {{else if postPage}} "./yourArticles" 
+            {{else}} "./yourFavorites" 
+            {{/if}} 
+            method="GET">
+            <label for="sortby">Sort by:</label>
+            <select id="sortby" name="sortby" onchange="this.form.submit()">
+                <option value="asc" {{#if asc}} selected {{/if}}>Oldest</option>
+                <option value="desc" {{#if desc}} selected {{/if}}>Newest</option>
+            </select>
+        </form>
+    </h5>   
+</div>
 
-    </div>
+<div>
+    <a id="add-article" href="./addArticle" {{#if postPage}} {{else}} style="visibility: hidden" {{/if}}>
+        What's in your mind?
+    </a>
+    <span id="pageIndex" style="visibility: hidden" >
+        {{#if homePage}}H{{/if}} 
+        {{#if postPage}}P{{/if}} 
+        {{#if favoritePage}}F{{/if}}
+    </span>
+    
+</div>
+
+<div class="articles-container">
+    
+    <ul id="all-articles" name="{{user.username}}">
+        {{#each allArticles}}
+        <li class="article-item" id="li-{{id}}">
+             {{user.username}}
+            <div id="grid-article">
+                <div id="article-body">
+                    <h3>Title : <span>{{title}}</span></h3>
+                    <h4>Theme : <span>{{themeName}}</span></h4>
+                    <h4>Time : <span>{{time}}</span></h4>
+                    <div class="images-container">
+                        {{#each images}}
+                        <div class="images">
+                            <img class="article-img" src="{{this.path}}">
+                        </div>
+                        {{/each}}
+                    </div>
+                    <div class="article-content">
+                        {{{content}}}
+                    </div>
+                </div>
+
+                {{#if this.comments}}
+                <div id="comment-container">
+                    <h4>Comments : </h4>
+                    {{#each this.comments}}
+                    <div>
+                        <p><em>{{username}} : </em>{{content}}     <i>..</i>{{time}}</i></p>
+                    </div>
+                    {{/each}}
+                    
+                </div>
+                {{/if}}
+
+                <div id="article-comment">
+                    <button class="like-button {{#if userlike}} liked {{/if}}" data-article-id="{{id}}"></button>
+                    <button id="addComment" data-article-id="{{id}}">
+                        Leave a comment</button>
+                </div>
+                
+                
+                <div id="article-operation">
+                    <form action="./editArticle" method="POST">
+                        <input id="articleInfo" name="articleInfo" type="hidden" value="{{this.id}}">
+                        <button id="edit-article">Edit</button>
+                    </form>
+                    <form action="./deleteArticle" method="POST">
+                        <input id="articleId" name="articleId" type="hidden" value="{{this.id}}">
+                        <button id="delete-article">Delete</button>
+                    </form>
+                </div>
+
+                <div id="comment-form"></div>
+                
+                
+                
+            </div>
+            <div class="hr-container">
+                <hr class="article-hr">
+            </div>
+        </li>
+        {{/each}}
+    </ul>
 
 </div>

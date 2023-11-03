@@ -5,43 +5,24 @@ const dbPromise = require("./database.js")
  * Inserts the new user into the database. 
  * Then, return the ID which the database auto-assigned
  * 
- * @param newUser the new user details to insert
+ * @param user the new user details to insert
  */
-async function addNewUser(newUser) {
+async function addNewUser(user) {
     const db = await dbPromise;
+    try{
+        const result = await db.run(SQL`
+            insert into user (username, password, name, birth, description, icon) 
+                values
+            (${user.username}, ${user.password}, ${user.name},${user.birth}, 
+                ${user.description}, ${user.icon} );`);
 
-    const result = await db.run(SQL`
-        insert into newUser (id, username, password, realName, dateOfBirth, description) 
-        values(${id},${username}, ${password}, ${realName},${dateOfBirth}, ${description} )`);
-
-    // Get the auto-generated ID value, and return it back.
-    return result.lastID;
-}
-//so the user can review the details in their account
-async function retrieveNewUserDetails(userId) {
-    const db = await dbPromise;
-
-    const userDetails = await db.all(SQL`select * from user where id=${userId} `);
-
-    return userDetails;
+        // Get the auto-generated ID value, and return it back.
+        return result.lastID;
+    }catch(error) {
+        throw error;
+    }
 }
 
-
-/*
- * Inserts the given user into the database. Then, reads the ID which the database auto-assigned, and adds it
- * to the user.
- * 
- * @param user the user to insert
- */
-async function createUser(user) {
-    const db = await dbPromise;
-
-    const result = await db.run(SQL`
-        insert into user (username, password, name) values(${user.username}, ${user.password}, ${user.name})`);
-
-    // Get the auto-generated ID value, and assign it back to the user object.
-    user.id = result.lastID;
-}
 
 /**
  * Gets the user with the given id from the database.
@@ -76,12 +57,12 @@ async function retrieveUserByUsername(username) {
  * @param {string} username the user's username
  * @param {string} password the user's password
  */
-async function retrieveUserWithCredentials(username, password) {
+async function retrieveUserWithCredentials(username) {
     const db = await dbPromise;
 
     const user = await db.get(SQL`
         select * from user
-        where username = ${username} and password = ${password}`);
+        where username = ${username} ;`);
 
     return user;
 }
@@ -118,13 +99,12 @@ async function retrieveAllUsers() {
  * 
  * @param user the user to update
  */
-async function updateUser(user) {
+async function updateUserToken(user) {
     const db = await dbPromise;
 
     await db.run(SQL`
         update user
-        set username = ${user.username}, password = ${user.password},
-            name = ${user.name}, authToken = ${user.authToken}
+        set authToken = ${user.authToken}
         where id = ${user.id}`);
 }
 
@@ -141,16 +121,43 @@ async function deleteUser(id) {
         where id = ${id}`);
 }
 
+/**
+ * Updates the given user in the database, not including auth token
+ * 
+ * @param user the user to update
+ */
+async function updateUserInfo(user) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        update user
+        set username = ${user.username}, name = ${user.name}, 
+            birth = ${user.birth}, 
+            description = ${user.description},
+            icon = ${user.icon}
+        where id = ${user.id}`);
+}
+
+async function updatePassword(password , id) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        update user
+        set password = ${password}
+        where id = ${id}`);
+}
+
+
 // Export functions.
 module.exports = {
-    createUser,
     retrieveUserById,
     retrieveUserByUsername,
     retrieveUserWithCredentials,
     retrieveUserWithAuthToken,
     retrieveAllUsers,
-    updateUser,
+    updateUserToken,
     deleteUser,
     addNewUser,
-    retrieveNewUserDetails
+    updateUserInfo,
+    updatePassword
 };
