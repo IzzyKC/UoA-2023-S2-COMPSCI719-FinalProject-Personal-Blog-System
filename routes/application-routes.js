@@ -11,19 +11,20 @@ const bcrypt = require('bcrypt');
     const sortby = req.query.sortby;
     const user = res.locals.user;
     
-     let allArticles = [];
-     if (sortby == "asc") {
-         res.locals.asc = true;
-         allArticles = await articleDao.retrieveAllArticlesAsc();
-     } else {
-         res.locals.desc = true;
-         allArticles = await articleDao.retrieveAllArticlesDesc();
-     }
-     await article.fetchAllArticleDetails(allArticles, user);
+    let allArticles = [];
+    if (sortby == "asc") {
+        res.locals.asc = true;
+        allArticles = await articleDao.retrieveAllArticlesAsc();
+    } else {
+        res.locals.desc = true;
+        allArticles = await articleDao.retrieveAllArticlesDesc();
+    }
+    await article.fetchAllArticleDetails(allArticles, user, "H");
    
-     res.locals.allArticles = allArticles;
-     res.render("home");
- 
+    res.locals.allArticles = allArticles;
+     
+    res.render("home");
+     
  });
 
 router.post("/processPassword", async function(req, res){
