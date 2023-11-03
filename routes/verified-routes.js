@@ -11,6 +11,7 @@ const imageDao = require("../modules/image-dao.js");
 const article = require("../modules/article-module.js");
 const commentDao = require("../modules/comment-dao.js");
 const userDao = require("../modules/user-dao.js");
+const bcrypt = require('bcrypt');
 
 
 router.get("/allArticles", verifyAuthenticated, async function(req, res) {
@@ -244,10 +245,7 @@ router.get("/updateAccount", verifyAuthenticated, function(req, res) {
 });
 
 router.post("/saveUpdate", verifyAuthenticated, async function(req, res) {
-    console.log("save update");
     const user = res.locals.user;
-    console.log(user);
-    console.log(req.body.avatar);
     try {
         const update= {
             username: req.body.username,
@@ -262,7 +260,7 @@ router.post("/saveUpdate", verifyAuthenticated, async function(req, res) {
         res.setToastMessage("UPDATE USER INFO SUCCESSFULLY!");   
     }catch(error){
         console.log(error);
-        res.setToastMessage("UPDATE USER INFO FAILED!");   
+        res.setToastMessage(`UPDATE USER INFO FAILED!:${error}`);   
     }finally{
         res.redirect("/");
     }
@@ -280,5 +278,26 @@ router.post("/deleteAccount", verifyAuthenticated, async function(req, res) {
         res.redirect("/login");
     }
 });
+
+router.get("/changePassword", verifyAuthenticated, function(req, res) {
+    res.render("change-password");
+});
+
+router.post("/updatePassword", verifyAuthenticated, async function(req, res) {
+    const user = res.locals.user;
+    const hashPassword = await bcrypt.hash( req.body.password , 10 );
+    try {
+        console.log(hashPassword);
+        await userDao.updatePassword(hashPassword, user.id);
+        res.setToastMessage("UPDATE PASSWORD SUCCESSFULLY!");   
+    }catch(error){
+        console.log(error);
+        res.setToastMessage(`UPDATE PASSWORD FAILED!:${error}`);   
+    }finally{
+        res.redirect("/");
+    }
+    
+});
+
 
 module.exports = router;

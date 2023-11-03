@@ -73,3 +73,7 @@ form {
     margin: 10px;
 }
 
+fieldset > button {
+    margin: 10px;
+    display: inline-block;
+}
