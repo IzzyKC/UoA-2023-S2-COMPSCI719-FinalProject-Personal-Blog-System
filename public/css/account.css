@@ -1,0 +1,97 @@
+/* Flex */
+/*****************************************************************/
+.flex-col, .flex-row {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.align-stretch {
+    align-items: stretch;
+}
+
+.align-end {
+    align-items: flex-end;
+}
+
+.justify-start {
+    justify-content: flex-start;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-se {
+    justify-content: space-evenly;
+}
+
+.justify-sa {
+    justify-content: space-around;
+}
+
+.justify-sb {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.align-self-end {
+    align-self: flex-end;
+}
+
+.align-self-stretch {
+    align-self: stretch;
+}
+/*****************************************************************/
+
+
+/* Grid */
+/*****************************************************************/
+.grid-3 {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+}
+/*****************************************************************/
+
+
+/* Misc */
+/*****************************************************************/
+.d-block {
+    display: block;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.mb {
+    margin-bottom: 10px;
+}
+/*****************************************************************/
