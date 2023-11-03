@@ -5,7 +5,7 @@
         <legend>Account Info</legend>
         <form id="new-account-form" action="./newAccount" method="POST">
             <div class="avatar-icon-div">
-            <h5>Select your icon:</h5>
+            <h5>Select your icon:</h5> <br>
             <input type="radio" name="avatar" id="ape" class="avatar-radio" value="./images/avatar/ape.jpg" required/>
             <label for="ape">
                 <img class="avatar-img" src="./images/avatar/ape.jpg" alt="ape" />
@@ -51,33 +51,35 @@
             </div>
 
             <div class="flex-col mb">
-                <label for="txtUsername">Username:</label>
-                <input type="text" name="username" id="txtUsername" required>
-                <span id="username-check"></span>
+                <label for="txtUsername">Username:</label> <br>
+                <input type="text" name="username" id="txtUsername" required><br>
+                <span id="username-check"></span> <br>
             </div>
 
             <div class="flex-col mb">
-                <label for="txtPassword">Password:</label>
+                <label for="txtPassword">Password:</label> <br>
                 <input type ="password" id="txtPassword" name="password" required><br>
             </div>
 
             <div class="flex-col mb">
-                <label for="confirmPassword">Confirm Password:</label>
+                <label for="confirmPassword">Confirm Password:</label> <br>
                 <input type ="password" id="confirmPassword" name="confirmPassword" required><br>   
             </div>
 
             <div class="flex-col mb">
-                <label for="txtName">Name:</label>
-                <input type="text" name="name" id="txtName" required>
+                <label for="txtName">Name:</label> <br>
+                <input type="text" name="name" id="txtName" required> 
+
+
             </div>
 
             <div class="flex-col mb">
-                <label for="birth">Date of Birth:</label>
+                <label for="birth">Date of Birth:</label> <br>
                 <input type="date" name="birth" id="birth">
             </div>
 
             <div class="flex-col mb">
-                <label for="txtDescription">Description:</label>
+                <label for="txtDescription">Description:</label> <br>
                 <textarea class="txtarea-account" name="description" id="txtDescription" 
                     rows="8" cols="80" placeholder="about you"></textarea>
             </div>

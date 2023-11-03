@@ -16,12 +16,18 @@ body {
     border-radius: 5px;    
     box-shadow: 6px 6px 6px rgba(83, 82, 82, 0.2);
     margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 .flex-col {
     display: flex;
     align-items: left;
     margin: 10px;
+
 }
 
 .form-container button{
@@ -76,4 +82,8 @@ form {
 fieldset > button {
     margin: 10px;
     display: inline-block;
+}
+
+input {
+    border-radius: 4px;
 }
