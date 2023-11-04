@@ -84,6 +84,7 @@ fieldset > button {
     display: inline-block;
 }
 
-input {
+input,
+.editor-item {
     border-radius: 4px;
 }

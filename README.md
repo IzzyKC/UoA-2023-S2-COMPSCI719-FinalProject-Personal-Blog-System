@@ -17,21 +17,28 @@ Our webapp, Philantropic Polar Bears -- A Blog is a fully functional stack with 
 
     -adding and removing favourite articles
     -recently added articles load on the home page
-    -a user's video autoplaying when page is loaded was partially completed. We were unable to get it playing automatically when the page loaded, it still required a click. 
+    -a user's video autoplaying when page is loaded was partially completed. 
+    - liking/replying to comments
 
  d. Instructions on what the database file (*.db file) should be named
 
+project-database.db
 
  e. Does the marker need to do anything prior to running your webapp, other
  than npm install?
 
+No
 
  f. Does the marker need to do anything special to run your webapp, other than
  running npm start?
+
+ Once npm start has run, the database needs to be created in DB browser. Once this is running, the webapp can be rendered in the browser on localhost:3000
 
 
  g. At least one username / password combination for an existing user in your
  system with some already-published articles
 
+username: Hannah_Montana
+password: qwer
 
  h. Any other instructions / comments you wish to make to your markers
