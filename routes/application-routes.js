@@ -5,7 +5,6 @@ const articleDao = require("../modules/article-dao.js");
 const article = require("../modules/article-module.js");
 const userDao = require("../modules/user-dao.js");
 const bcrypt = require('bcrypt');
-const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 
  router.get("/", async function (req, res) {
     res.locals.title = "philanthropic-polar-bears";
@@ -29,27 +28,7 @@ const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
      
  });
 
- router.get("/replyToComment", verifyAuthenticated, async function(req, res) {
-    const pageIndex = req.query.InpPageIndex;
-    try {
-        const user = res.locals.user;
-        const articleId = req.query.inpArticleId;
-        const content = req.query.inpComment;
-        
-        console.log(pageIndex);
-        const comment = {
-            content : content,
-            articleId: articleId,
-            userId: user.id
-        };
-        await commentDao.retrieveCommentByArticleId(articleId)
-    } catch (error) {
-        console.log(error);
-        res.setToastMessage(`LEAVE A COMMENT FAILED : ${error}`);
-    }
-    res.redirect(article.getNextPage(pageIndex));
-    
-})
+
 
 module.exports = router
 
