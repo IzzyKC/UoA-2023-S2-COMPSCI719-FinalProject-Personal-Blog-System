@@ -5,6 +5,7 @@ const articleDao = require("../modules/article-dao.js");
 const article = require("../modules/article-module.js");
 const userDao = require("../modules/user-dao.js");
 const bcrypt = require('bcrypt');
+const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 
  router.get("/", async function (req, res) {
     res.locals.title = "philanthropic-polar-bears";
