@@ -9,16 +9,18 @@ body {
     background-size: cover;
     background-color: #a4f5ee;
     background-position: 50% 50%;
-    
+    margin: 0;
+
     
 }
 
 
 .container {
-    margin: auto;
+    /* margin: auto; */
     box-shadow: 6px 6px 6px rgba(83, 82, 82, 0.2);
     background-color: #b4c5c4;
     overflow: auto;
+    margin: 0;
 }
 
 h1, h2, h3, h4, h5 ,a {
