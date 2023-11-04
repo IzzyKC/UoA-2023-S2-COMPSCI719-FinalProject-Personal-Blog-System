@@ -11,14 +11,26 @@ Our webapp, Philantropic Polar Bears -- A Blog is a fully functional stack with 
  features
 
     -all compulsary features completed
-    -
+      -create new account
+      -check if username has been taken
+      -confirm password
+      -select user icon(avatar)
+      -update User Information
+      -update password
+      -delete user account
+      -user login/logout
+      -encode/decode password
+      -user add/update/delete articles
+      -user upload multiple images
+      -Non registered user can browse articles only
+    
 
  c. Adescription of the extra features your team has implemented
 
     -adding and removing favourite articles
-    -recently added articles load on the home page
-    -a user's video autoplaying when page is loaded was partially completed. 
-    - liking/replying to comments
+    -sorting articles by time based (oldest <-> newest) for Home/Your Articles/Favorites pages
+    -video autoplaying on create new account page
+    -add comments for each article
 
  d. Instructions on what the database file (*.db file) should be named
 
@@ -32,7 +44,7 @@ No
  f. Does the marker need to do anything special to run your webapp, other than
  running npm start?
 
- Once npm start has run, the database needs to be created in DB browser. Once this is running, the webapp can be rendered in the browser on localhost:3000
+ Once npm start has run, the database needs to be created in DB browser. After create a new database, run project-database-init-script.sql to set up system and test data. Once this is running, the webapp can be rendered in the browser on localhost:3000
 
 
  g. At least one username / password combination for an existing user in your
