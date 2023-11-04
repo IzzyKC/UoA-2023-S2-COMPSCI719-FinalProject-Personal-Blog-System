@@ -6,11 +6,12 @@ async function addNewComment(comment) {
 
     const result = await db.run(SQL`
         insert into comment(content, time, articleId, userId) values
-        (${comment.content} , dateTime('now'), ${comment.articleId}, ${comment.userId}, ${comment.parentCommentId || null});`);
+        (${comment.content} , dateTime('now'), ${comment.articleId}, ${comment.userId});`);
 
     return result;
 }
 
+/*
 async function retrieveRepliesForComment(commentId) {
     const db = await dbPromise;
     const replies = await db.all(SQL`
@@ -37,19 +38,22 @@ async function retrieveCommentByArticleId(articleId) {
 
     return comments;
 }
+*/
+ async function retrieveCommentByArticleId(articleId) {
+     const db = await dbPromise;
+     const comments = await db.all(SQL`select c.*, u.username from comment as c, user as u 
+     where articleId = ${articleId} and c.userId = u.id;`);
+     return comments;
 
-// async function retrieveCommentByArticleId(articleId) {
-//     const db = await dbPromise;
-//     const comments = await db.all(SQL`select c.*, u.username from comment as c, user as u 
-//     where articleId = ${articleId} and c.userId = u.id;`);
-//     return comments;
-
-// }
+ }
 
 
 // Export functions.
 module.exports = {
     addNewComment,
-    retrieveRepliesForComment,
     retrieveCommentByArticleId
+    /*
+    ,
+    retrieveRepliesForComment
+    */
 };
