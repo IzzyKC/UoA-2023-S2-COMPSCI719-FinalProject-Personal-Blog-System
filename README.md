@@ -22,7 +22,7 @@ Our webapp, Philantropic Polar Bears -- A Blog is a fully functional stack with 
 
  d. Instructions on what the database file (*.db file) should be named
 
-project-database.db
+project-database.db and project-database-init-script.sql
 
  e. Does the marker need to do anything prior to running your webapp, other
  than npm install?
