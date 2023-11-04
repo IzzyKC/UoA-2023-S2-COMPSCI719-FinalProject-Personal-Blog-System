@@ -17,12 +17,10 @@ insert into test (stuff) values
 /*
 *philanthropic-polar-bears sql starts here
 */
-DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS user_article;
 DROP TABLE IF EXISTS article;
-DROP TABLE IF EXISTS user_theme;
 DROP TABLE IF EXISTS theme;
 DROP TABLE IF EXISTS user;
 
@@ -43,14 +41,6 @@ CREATE TABLE IF NOT EXISTS theme(
 	id INTEGER NOT NULL,
 	name varchar(24) NOT NULL,
 	PRIMARY KEY(id)
-);
-
-CREATE TABLE IF NOT EXISTS user_theme(
-	userId INTEGER NOT NULL,
-	themeId INTEGER NOT NULL,
-	PRIMARY KEY(userId, themeId),
-	FOREIGN KEY(userId) REFERENCES user(id) on DELETE CASCADE,
-	FOREIGN KEY(themeId) REFERENCES theme(id) on DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS article(
@@ -92,18 +82,7 @@ CREATE TABLE IF NOT EXISTS comment(
 	FOREIGN KEY(userId) REFERENCES user(id) on DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS notification(
-	id INTEGER NOT NULL,
-	senderId INTEGER NOT NULL,
-	receiverId INTEGER NOT NULL,
-	content TEXT NOT NULL,
-	time timestamp NOT null,
-	PRIMARY KEY(id),
-	FOREIGN KEY(senderId) REFERENCES user(id) on DELETE CASCADE,
-	FOREIGN KEY(receiverId) REFERENCES user(id) on DELETE CASCADE
-	
-);
-
+--data for code table
 INSERT INTO theme (id, name) VALUES
 (0,'Default'),
 (1,'Music'),
@@ -113,3 +92,21 @@ INSERT INTO theme (id, name) VALUES
 (5,'Fashion'),
 (6,'Beauty'),
 (999,'Other');
+
+--TEST DATA for user: Hannah Montana
+--username : Hannah_Montana
+--password : qwer
+INSERT INTO user(id, username, password, name, birth, description, icon) VALUES
+(1, 'Hannah_Montana', '$2b$10$fJzO4Qy3onVoTw8b3YjIaOD9Vc3JNMz6yC6ZpXRSVlcdJKL5M9kYC',
+ 'Hannah Montana', date('2008-11-20'), 'I am a singer', './images/avatar/koala.jpg');
+ 
+INSERT INTO article (id, title, content, time, themeId, userId) VALUES
+(1, 'I am a singer', 
+'Miley Stewart is a fourteen-year-old middle school student who appears to live a normal life but has a secret identity, pop singer',
+ date('2023-10-30'), 1, 1);
+ 
+ INSERT INTO comment(id, content, time, articleId, userId) VALUES
+ (1, 'good to go', datetime('2023-10-30'), 1, 1);
+ 
+ INSERT INTO user_article(articleId, userId) VALUES
+ (1,1);

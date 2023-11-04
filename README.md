@@ -34,7 +34,8 @@ Our webapp, Philantropic Polar Bears -- A Blog is a fully functional stack with 
 
  d. Instructions on what the database file (*.db file) should be named
 
-project-database.db and project-database-init-script.sql
+   database : project-database.db 
+   sql file : project-database-init-script.sql
 
  e. Does the marker need to do anything prior to running your webapp, other
  than npm install?
@@ -50,7 +51,9 @@ No
  g. At least one username / password combination for an existing user in your
  system with some already-published articles
 
-username: Hannah_Montana
-password: qwer
+   username: Hannah_Montana
+   password: qwer
+
+TEST DATA SQL String for this user enclosed in project-database-init-script.sql(file) 
 
  h. Any other instructions / comments you wish to make to your markers
