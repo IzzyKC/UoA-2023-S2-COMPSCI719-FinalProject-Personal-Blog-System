@@ -21,8 +21,10 @@ Our webapp, Philantropic Polar Bears -- A Blog is a fully functional stack with 
       -user login/logout
       -encode/decode password
       -user add/update/delete articles
+      -user add and update articles with wysiwyg editor
       -user upload multiple images
       -Non registered user can browse articles in ascending order only
+      -the whole websiet have a consistent look and is responsive
     
 
  c. Adescription of the extra features your team has implemented
